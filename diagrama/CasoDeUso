@@ -1,0 +1,26 @@
+      +------------------------+
+      |        Sistema         |
+      +------------------------+
+      |                        |
+      | + cadastrar_aluno()    |
+      | + buscar_alunos()      |
+      | + registrar_matricula()|
+      | + cadastrar_missao()   |
+      | + registrar_participacao()|
+      | + gerar_relatorio_missoes()|
+      | + criar_equipe()       |
+      | + gerenciar_membros()  |
+      | + consultar_equipes()  |
+      | + menu()               |
+      |                        |
+      +------------------------+
+           ^       ^      ^
+           |       |      |
+           |       |      |
+           |       |      |
+        +--+-------+------+--+
+        |                   |
+        |                   |
+  +-----+-----+       +-----+-----+
+  |    Admin  |       |  Instrutor |
+  +-----------+       +-----------+
