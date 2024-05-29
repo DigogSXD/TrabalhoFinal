@@ -9,6 +9,5 @@ A linguagem que eu escolhir foi python, mesmo não apresentando o melhor desempe
 Dei uma revisada em como mexer no GitHub corretamente e reorganizei as pastas para deixar mais claro o que é código e o que não é, assim criei a pasta codigo.
 
 # Pensando na situação problema
-Criei um menu simples onde a pessoa pode fazer 4 opções que seria Cadastrar Aluno, Buscar Alunos, Registrar Matrícula em Aula e sair, bem simples para ter um norte no que tenho que fazer.
-Conforme fui lendo o escopo total do que se pede vi que tenho que arrumar o menu pois vou ter mais que 4 opções, pelo que eu previ aqui vão ser 10, acrescentando mais 6, Cadastrar Missão, Registrar Participação em Missão, Gerar Relatório de Missões, Criar Equipe, Gerenciar Membros de Equipe, Consultar Equipes e Sair
+Criamos um menu simples onde a pessoa pode fazer 4 opções, que seria Cadastrar Aluno, Buscar Alunos, Registrar Matrícula em Aula e sair, bem simples para ter um norte no que iriamos  fazer. Conforme fomos lendo o escopo total do que se pede nos vemos que teremos que arrumar o menu pois vamos ter mais do que 4 opções, pelo que vimos prevemos que serão 10, acrescentando mais 6, Cadastrar Missão, Registrar Participação em Missão, Gerar Relatório de Missões, Criar Equipe, Gerenciar Membros de Equipe, Consultar Equipes e Sair
 
