@@ -10,3 +10,4 @@ Dei uma revisada em como mexer no GitHub corretamente e reorganizei as pastas pa
 
 # Pensando na situação problema
 Criei um menu simples onde a pessoa pode fazer 4 opções que seria Cadastrar Aluno, Buscar Alunos, Registrar Matrícula em Aula e sair, bem simples para ter um norte no que tenho que fazer.
+Conforme fui lendo o escopo total do que se pede vi que tenho que arrumar o menu pois vou ter mais que 4 opções, pelo que eu previ aqui vão ser 10, acrescentando mais 6, Cadastrar Missão, Registrar Participação em Missão, Gerar Relatório de Missões, Criar Equipe, Gerenciar Membros de Equipe, Consultar Equipes e Sair
