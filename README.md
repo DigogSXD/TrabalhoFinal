@@ -6,4 +6,4 @@ Temos a situação problema que é, A Escola para Jovens Superdotados do Profess
 
 A linguagem que eu escolhir foi python, mesmo não apresentando o melhor desempenho em fazer isso, mas é a que estou familiarizada, e conheço uma bliblioteca que se chama pandas, que é uma biblioteca de software para a linguagem de programação Python, amplamente utilizada para manipulação e análise de dados.
 
-Dei uma revisada também em como mexer no github direito.
+Dei uma revisada em como mexer no GitHub corretamente e reorganizei as pastas para deixar mais claro o que é código e o que não é, assim criei a pasta codigo.
