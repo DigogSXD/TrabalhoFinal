@@ -8,5 +8,5 @@ A linguagem que eu escolhir foi python, mesmo não apresentando o melhor desempe
 
 Dei uma revisada em como mexer no GitHub corretamente e reorganizei as pastas para deixar mais claro o que é código e o que não é, assim criei a pasta codigo.
 
-#Pensando na situação problema
+# Pensando na situação problema
 Criei um menu simples onde a pessoa pode fazer 4 opções que seria Cadastrar Aluno, Buscar Alunos, Registrar Matrícula em Aula e sair, bem simples para ter um norte no que tenho que fazer.
