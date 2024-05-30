@@ -5,6 +5,8 @@
 <div align="center">
   <h2>🎯 Objetivo </h2>
 </div> 
+*A Escola para Jovens Superdotados do Professor Xavier, um renomado instituto que acolhe e treina jovens mutantes, enfrenta desafios crescentes na gestão de suas operações diárias. Com o aumento do número de alunos e a complexidade das atividades, tornou-se necessário desenvolver um sistema de gerenciamento eficiente que possa atender às necessidades específicas da escola.
+
 * Manual do Usuário para o Sistema de Gerenciamento de Alunos, Missões e Equipes
 Este manual oferece instruções detalhadas para usar o sistema de gerenciamento de alunos, missões e equipes. O sistema permite o cadastro e gerenciamento de alunos (mutantes), missões, equipes e matrículas em aulas e treinamentos.
 
