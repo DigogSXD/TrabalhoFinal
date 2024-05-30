@@ -5,11 +5,6 @@
 
 <!-- Título centralizado -->
 <div align="center">
-  <h2>🗄️ GradeWeb </h2>
-</div> 
-
-<!-- Título centralizado -->
-<div align="center">
   <h2>🎯 Objetivo </h2>
 </div> 
 
@@ -37,37 +32,14 @@ Este projeto oferece as seguintes funcionalidades:
 ### 1. 🔑 Pré-requisitos
 Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
 - [Python3](https://www.python.org/downloads/)
-- [Django](https://www.djangoproject.com)
-- [PostgreSQL](https://www.postgresql.org/download/)
-- [Node.js (NPM)](https://nodejs.org/en/)
   
 
 ```
 npm install -g create-react-app
 ``` 
 
-<!-- Adiciona a lista de bibliotecas para copiar -->
-### 2. 📑 Instalação das bibliotecas do Python
-Aqui estão as bibliotecas do Python usadas que são conjuntos de recursos pré-desenvolvidos que simplificam o desenvolvimento de aplicativos, economizando tempo e esforço:
-```
-pip install Django
-```
-```
-pip install djangorestframework
-```
-```
-pip install djangorestframework-simplejwt 
-```
-```
-pip install pillow  
-```
-```
-pip install python-magic
-``` 
-
-
 <!-- Adiciona a funçao de copiar o link do repositorio -->
-### 3. 📍 Clonar o Repositório
+### 2. 📍 Clonar o Repositório
 Vamos começar clonando um repositório do GitHub em um diretório local através do terminal, conforme indicado a seguir:
 ```
 git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
