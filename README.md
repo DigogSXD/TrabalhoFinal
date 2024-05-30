@@ -49,7 +49,7 @@ npm install -g create-react-app
 ### 2. 📍 Clonar o Repositório
 Vamos começar clonando um repositório do GitHub em um diretório local através do terminal, conforme indicado a seguir:
 ```
-git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
+git clone https://github.com/DigogSXD/TrabalhoFinal.git
 ```
   	
   
