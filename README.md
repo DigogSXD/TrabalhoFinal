@@ -59,7 +59,6 @@ Pressione Win + R, digite cmd e pressione Enter.
 Digite o seguinte comando e pressione Enter para verificar a versão do Python instalada:
 ```
 python --version
-
 ``` 
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
