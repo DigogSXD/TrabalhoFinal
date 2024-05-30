@@ -8,8 +8,9 @@
   <h2>🎯 Objetivo </h2>
 </div> 
 
-• O Sistema de Gestão Acadêmica foi concebido com a finalidade de proporcionar uma experiência ainda mais eficiente e personalizada aos estudantes da Faculdade do Gama (FGA). Com funcionalidades cuidadosamente projetadas, o sistema visa simplificar o planejamento e acompanhamento das disciplinas, permitindo que os alunos concentrem seus esforços no desenvolvimento acadêmico.
-
+• A Escola para Jovens Superdotados do Professor Xavier, um renomado instituto que acolhe e treina jovens mutantes, enfrenta
+desafios crescentes na gestão de suas operações diárias. Com o aumento do número de alunos e a complexidade das atividades,
+tornou-se necessário desenvolver um sistema de gerenciamento eficiente que possa atender às necessidades específicas da escola.
 <!-- Título centralizado -->
 <div align="center">
   <h2>👩🏾‍💻 Funcionalidades </h2>
