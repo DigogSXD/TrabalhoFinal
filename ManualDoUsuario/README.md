@@ -1,28 +1,107 @@
-* Este projeto oferece as seguintes funcionalidades:
+Manual do Usuário
+Sistema de Gerenciamento de Alunos Mutantes
+Introdução
+Bem-vindo ao Sistema de Gerenciamento de Alunos Mutantes! Este sistema permite cadastrar, consultar e gerenciar alunos mutantes, aulas, missões e equipes. Este manual fornecerá instruções detalhadas sobre como usar cada funcionalidade do sistema.
 
-Cadastro de Alunos Para cadastrar um novo aluno, siga os passos abaixo:
-No menu principal, escolha a opção "1. Cadastrar Aluno". Insira os dados solicitados: Nome Idade Habilidades (separadas por vírgula) Nível de Poder Equipe (se aplicável) Status de Matrícula O sistema validará os dados e informará se o cadastro foi realizado com sucesso. Consulta de Alunos
+Menu Principal
+Quando você iniciar o sistema, verá o menu principal com as seguintes opções:
 
-Para buscar alunos por diferentes critérios, siga os passos abaixo:
-No menu principal, escolha a opção "2. Buscar Alunos". Insira o critério de busca (nome, habilidades, equipe, status) e o valor correspondente. O sistema exibirá os alunos que correspondem ao critério de busca. Matrícula em Aulas e Treinamentos
+Cadastrar novo aluno
+Consultar alunos
+Cadastrar nova aula
+Consultar aulas
+Matricular aluno em aula
+Cadastrar nova missão
+Consultar missões
+Registrar participação em missão
+Criar nova equipe
+Consultar equipes
+Sair
+Digite o número da opção desejada e pressione Enter para acessar a funcionalidade correspondente.
 
-Para matricular alunos em aulas ou treinamentos, siga os passos abaixo:
-No menu principal, escolha a opção "3. Registrar Matrícula em Aula". Insira o nome do aluno e o nome da aula. O sistema verificará a disponibilidade de vagas e, se houver, registrará a matrícula do aluno. Cadastro de Missões
+Funcionalidades
+1. Cadastrar novo aluno
+Para cadastrar um novo aluno, siga os seguintes passos:
 
-Para cadastrar uma nova missão, siga os passos abaixo:
-No menu principal, escolha a opção "4. Cadastrar Missão". Insira os detalhes da missão: Objetivo Equipe Designada Data de Início (DD/MM/AAAA) Data de Término (DD/MM/AAAA) Status O sistema registrará a missão com os dados fornecidos. Acompanhamento de Participação em Missões
+Escolha a opção "1" no menu principal.
+Insira o nome do aluno.
+Insira a idade do aluno (deve ser um número positivo).
+Insira as habilidades mutantes do aluno, separadas por vírgulas.
+Insira o nível de poder do aluno.
+Insira a equipe do aluno (opcional).
+Insira o status de matrícula do aluno (padrão: Ativo).
+Se os dados forem válidos, o aluno será cadastrado com sucesso.
+2. Consultar alunos
+Para consultar alunos, siga os seguintes passos:
 
-Para registrar a participação de alunos em missões, siga os passos abaixo:
-No menu principal, escolha a opção "5. Registrar Participação em Missão". Insira o objetivo da missão e o nome do aluno. O sistema adicionará o aluno à lista de participantes da missão. Relatórios de Missões
+Escolha a opção "2" no menu principal.
+Insira os critérios de busca (nome, habilidades, equipe, status de matrícula). Você pode deixar os campos em branco para ignorar o critério.
+Os alunos que correspondem aos critérios de busca serão exibidos.
+3. Cadastrar nova aula
+Para cadastrar uma nova aula, siga os seguintes passos:
 
-Para gerar relatórios de missões, siga os passos abaixo:
-No menu principal, escolha a opção "6. Gerar Relatório de Missões". Insira o objetivo da missão para a qual deseja gerar o relatório. O sistema exibirá um relatório detalhado da missão, incluindo os participantes e os detalhes da missão. Gerenciamento de Equipes Criação de Equipes
+Escolha a opção "3" no menu principal.
+Insira o nome da aula.
+Insira o nome do instrutor.
+Insira o número de vagas (deve ser um número positivo).
+Se os dados forem válidos, a aula será cadastrada com sucesso.
+4. Consultar aulas
+Para consultar todas as aulas, siga os seguintes passos:
 
-Para criar uma nova equipe, siga os passos abaixo:
-No menu principal, escolha a opção "7. Criar Equipe". Insira o nome da equipe e o nome do instrutor. O sistema registrará a nova equipe com os dados fornecidos. Gerenciamento de Membros
+Escolha a opção "4" no menu principal.
+As aulas cadastradas serão exibidas com detalhes como nome, instrutor, vagas e alunos matriculados.
+5. Matricular aluno em aula
+Para matricular um aluno em uma aula, siga os seguintes passos:
 
-Para adicionar ou remover membros de uma equipe, siga os passos abaixo:
-No menu principal, escolha a opção "8. Gerenciar Membros de Equipe". Insira o nome da equipe e escolha se deseja adicionar ou remover um membro. Insira o nome do aluno a ser adicionado ou removido. O sistema atualizará a lista de membros da equipe conforme solicitado. Consulta de Equipes
+Escolha a opção "5" no menu principal.
+Insira o nome do aluno.
+Insira o nome da aula.
+Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
+6. Cadastrar nova missão
+Para cadastrar uma nova missão, siga os seguintes passos:
 
-Para consultar informações sobre uma equipe, siga os passos abaixo:
-No menu principal, escolha a opção "9. Consultar Equipes". Insira o nome da equipe para consulta. O sistema exibirá os detalhes da equipe, incluindo membros e instrutor. Navegação no Menu Para navegar no menu, simplesmente insira o número correspondente à opção desejada e pressione Enter. Siga as instruções exibidas para cada funcionalidade.
+Escolha a opção "6" no menu principal.
+Insira o objetivo da missão.
+Insira a equipe designada para a missão.
+Insira a data de início da missão (formato AAAA-MM-DD).
+Insira a data de término da missão (formato AAAA-MM-DD).
+Se os dados forem válidos, a missão será cadastrada com sucesso.
+7. Consultar missões
+Para consultar todas as missões, siga os seguintes passos:
+
+Escolha a opção "7" no menu principal.
+As missões cadastradas serão exibidas com detalhes como objetivo, equipe designada, datas de início e término, e status.
+8. Registrar participação em missão
+Para registrar a participação de um aluno em uma missão, siga os seguintes passos:
+
+Escolha a opção "8" no menu principal.
+Insira o nome do aluno.
+Insira o objetivo da missão.
+Se o aluno e a missão forem encontrados, a participação do aluno será registrada na missão.
+9. Criar nova equipe
+Para criar uma nova equipe, siga os seguintes passos:
+
+Escolha a opção "9" no menu principal.
+Insira o nome da equipe.
+Insira os nomes dos membros da equipe, separados por vírgulas.
+Insira o nome do instrutor.
+Se os membros forem encontrados, a equipe será criada com sucesso.
+10. Consultar equipes
+Para consultar todas as equipes, siga os seguintes passos:
+
+Escolha a opção "10" no menu principal.
+As equipes cadastradas serão exibidas com detalhes como nome, instrutor e membros.
+11. Sair
+Para sair do sistema, siga os seguintes passos:
+
+Escolha a opção "11" no menu principal.
+O sistema será encerrado.
+Validação de Dados
+O sistema realiza a validação de dados nas seguintes situações:
+
+Cadastro de Aluno: Verifica se todos os campos obrigatórios foram preenchidos e se a idade é um número positivo.
+Cadastro de Aula: Verifica se o número de vagas é um número positivo.
+Mensagens de Erro
+Se você inserir dados inválidos, o sistema exibirá mensagens de erro apropriadas e solicitará que você tente novamente.
+
+Este manual cobre todas as funcionalidades básicas do sistema. Siga as instruções fornecidas para utilizar o sistema de maneira eficiente e sem erros. Se precisar de ajuda adicional, não hesite em procurar suporte técnico.
