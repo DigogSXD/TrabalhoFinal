@@ -5,104 +5,38 @@
 
 <!-- Título centralizado -->
 <div align="center">
-  <h2>🎯 Objetivo </h2>
+  <h2>:dart: Objetivo </h2>
 </div> 
 
-• A Escola para Jovens Superdotados do Professor Xavier, um renomado instituto que acolhe e treina jovens mutantes, enfrenta
-desafios crescentes na gestão de suas operações diárias. Com o aumento do número de alunos e a complexidade das atividades,
-tornou-se necessário desenvolver um sistema de gerenciamento eficiente que possa atender às necessidades específicas da escola.
+• O Sistema de Gestão Acadêmica foi concebido com a finalidade de proporcionar uma experiência ainda mais eficiente e personalizada aos estudantes da Faculdade dos Xmen. Com funcionalidades cuidadosamente projetadas, o sistema visa simplificar o Cadastro de alunos,consulta de alunos,Matrículas em aulas  e treinamentos,cadastro para missoões,acopanhar a participação em missões e gerenciar as equipes
 <!-- Título centralizado -->
 <div align="center">
-  <h2>👩🏾‍💻 Funcionalidades </h2>
+  <h2>:woman_technologist_tone4: Funcionalidades </h2>
 </div> 
 
 Este projeto oferece as seguintes funcionalidades:
 
-* Cadastro de Alunos
-Para cadastrar um novo aluno, siga os passos abaixo:
+• Cadastrar Alunos: Faz o Cadastro De alunos novos na Academia Xmen
 
-No menu principal, escolha a opção "1. Cadastrar Aluno".
-Insira os dados solicitados:
-Nome
-Idade
-Habilidades (separadas por vírgula)
-Nível de Poder
-Equipe (se aplicável)
-Status de Matrícula
-O sistema validará os dados e informará se o cadastro foi realizado com sucesso.
-Consulta de Alunos
+• Consulta de Alunos: Permite buscar alunos por diferentes critérios como nome, habilidades, equipe, ou status.
 
-* Para buscar alunos por diferentes critérios, siga os passos abaixo:
+• Matrícula em Aulas e Treinamentos: Possibilita registrar a matrícula de alunos em aulas ou treinamentos oferecidos pela Academia Xmen.
 
-No menu principal, escolha a opção "2. Buscar Alunos".
-Insira o critério de busca (nome, habilidades, equipe, status) e o valor correspondente.
-O sistema exibirá os alunos que correspondem ao critério de busca.
-Matrícula em Aulas e Treinamentos
+• Cadastro de Missões: Permite cadastrar novas missões, incluindo detalhes como objetivo, equipe designada, data de início e término, e status.
 
-* Para matricular alunos em aulas ou treinamentos, siga os passos abaixo:
+• Acompanhamento de Participação em Missões: Permite registrar a participação de alunos em missões, mantendo um registro detalhado das suas atividades.
 
-No menu principal, escolha a opção "3. Registrar Matrícula em Aula".
-Insira o nome do aluno e o nome da aula.
-O sistema verificará a disponibilidade de vagas e, se houver, registrará a matrícula do aluno.
-Cadastro de Missões
+• Relatórios de Missões: Oferece a capacidade de gerar relatórios detalhados sobre as missões realizadas, incluindo informações sobre os participantes e detalhes da missão.
 
-* Para cadastrar uma nova missão, siga os passos abaixo:
-
-No menu principal, escolha a opção "4. Cadastrar Missão".
-Insira os detalhes da missão:
-Objetivo
-Equipe Designada
-Data de Início (DD/MM/AAAA)
-Data de Término (DD/MM/AAAA)
-Status
-O sistema registrará a missão com os dados fornecidos.
-Acompanhamento de Participação em Missões
-
-* Para registrar a participação de alunos em missões, siga os passos abaixo:
-
-No menu principal, escolha a opção "5. Registrar Participação em Missão".
-Insira o objetivo da missão e o nome do aluno.
-O sistema adicionará o aluno à lista de participantes da missão.
-Relatórios de Missões
-
-* Para gerar relatórios de missões, siga os passos abaixo:
-
-No menu principal, escolha a opção "6. Gerar Relatório de Missões".
-Insira o objetivo da missão para a qual deseja gerar o relatório.
-O sistema exibirá um relatório detalhado da missão, incluindo os participantes e os detalhes da missão.
-Gerenciamento de Equipes
-Criação de Equipes
-
-* Para criar uma nova equipe, siga os passos abaixo:
-
-No menu principal, escolha a opção "7. Criar Equipe".
-Insira o nome da equipe e o nome do instrutor.
-O sistema registrará a nova equipe com os dados fornecidos.
-Gerenciamento de Membros
-
-* Para adicionar ou remover membros de uma equipe, siga os passos abaixo:
-
-No menu principal, escolha a opção "8. Gerenciar Membros de Equipe".
-Insira o nome da equipe e escolha se deseja adicionar ou remover um membro.
-Insira o nome do aluno a ser adicionado ou removido.
-O sistema atualizará a lista de membros da equipe conforme solicitado.
-Consulta de Equipes
-
-* Para consultar informações sobre uma equipe, siga os passos abaixo:
-
-No menu principal, escolha a opção "9. Consultar Equipes".
-Insira o nome da equipe para consulta.
-O sistema exibirá os detalhes da equipe, incluindo membros e instrutor.
-Navegação no Menu
-Para navegar no menu, simplesmente insira o número correspondente à opção desejada e pressione Enter. Siga as instruções exibidas para cada funcionalidade.
+• Gerenciamento de Equipes: Permite criar e gerenciar equipes dentro da Academia Xmen, incluindo a adição e remoção de membros, e consulta de informações sobre as equipes.
 
 
 <!-- Título centralizado -->
 <div align="center">
-  <h2>🤞 Como executar o projeto </h2>
+  <h2>:fingers_crossed: Como executar o projeto </h2>
 </div> 
 
-### 1. 🔑 Pré-requisitos
+### 1. :key: Pré-requisitos
 Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
 - [Python3](https://www.python.org/downloads/)
   
@@ -112,7 +46,7 @@ npm install -g create-react-app
 ``` 
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
-### 2. 📍 Clonar o Repositório
+### 2. :round_pushpin: Clonar o Repositório
 Vamos começar clonando um repositório do GitHub em um diretório local através do terminal, conforme indicado a seguir:
 ```
 git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
@@ -120,7 +54,7 @@ git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
   	
   
 <div align="center">
-  <h2>⚙️ Configurações do projeto </h2>
+  <h2>:gear: Configurações do projeto </h2>
 </div>
 
 • Certifique-se de ter o Python instalado. O codigo foi desenvolvido em Python.
