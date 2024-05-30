@@ -38,11 +38,28 @@ Este projeto oferece as seguintes funcionalidades:
 
 ### 1. 🔑 Pré-requisitos
 Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
-- [Python3](https://www.python.org/downloads/)
-  
 
+Passo 1: Baixar o Instalador do Python
+Acesse o site oficial do Python.
+Clique em "Downloads" no menu superior.
+O site deve detectar automaticamente seu sistema operacional e oferecer o instalador adequado. Clique no botão "Download Python [versão mais recente]" para baixar o instalador.
+
+- [Python](https://www.python.org/downloads/)
+
+Passo 2: Executar o Instalador
+Abra o arquivo .exe que você acabou de baixar.
+
+Importante: Na primeira tela do instalador, marque a caixa "Add Python to PATH" (Adicionar Python ao PATH). Isso garante que você possa executar o Python e o pip (gerenciador de pacotes do Python) a partir da linha de comando.
+Clique em "Install Now" (Instalar agora) para iniciar a instalação padrão.
+
+Passo 3: Verificar a Instalação
+Abra o Prompt de Comando:
+
+Pressione Win + R, digite cmd e pressione Enter.
+Digite o seguinte comando e pressione Enter para verificar a versão do Python instalada:
 ```
-npm install -g create-react-app
+python --version
+
 ``` 
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
@@ -56,11 +73,4 @@ git clone https://github.com/DigogSXD/TrabalhoFinal.git
 <div align="center">
   <h2>⚙️ Configurações do projeto </h2>
 </div>
-
 • Certifique-se de ter o Python instalado. O codigo foi desenvolvido em Python.
-  
-• Baixe o PostgreSQL da página oficial de downloads. Certifique-se de baixar a versão compatível com o seu sistema.
-
-• É necessário ter o Node.js e o NPM instalados para usar o React. Siga as instruções de instalação disponíveis [AQUI](https://kinsta.com/pt/base-de-conhecimento/react-no-windows-macos-e-linux/#como-instalar-o-react-no-windows).
-
-• Certifique-se de instalar o Django e Suas Dependências, isso e necessario para que o codigo funcione  
