@@ -42,8 +42,9 @@ Digite o número da opção desejada e pressione Enter para acessar a funcionali
 <div>
   <h1>• Funcionalidades </h1>
 </div> 
-1. Cadastrar novo aluno
 
+1. Cadastrar novo aluno
+   
 Para cadastrar um novo aluno, siga os seguintes passos:
 
 Escolha a opção "1" no menu principal.
@@ -56,6 +57,7 @@ Insira o status de matrícula do aluno (padrão: Ativo).
 Se os dados forem válidos, o aluno será cadastrado com sucesso.
 
 2. Consultar alunos
+   
 Para consultar alunos, siga os seguintes passos:
 
 Escolha a opção "2" no menu principal.
@@ -63,6 +65,7 @@ Insira os critérios de busca (nome, habilidades, equipe, status de matrícula).
 Os alunos que correspondem aos critérios de busca serão exibidos.
 
 3. Cadastrar nova aula
+   
 Para cadastrar uma nova aula, siga os seguintes passos:
 
 Escolha a opção "3" no menu principal.
@@ -72,12 +75,14 @@ Insira o número de vagas (deve ser um número positivo).
 Se os dados forem válidos, a aula será cadastrada com sucesso.
 
 4. Consultar aulas
+   
 Para consultar todas as aulas, siga os seguintes passos:
 
 Escolha a opção "4" no menu principal.
 As aulas cadastradas serão exibidas com detalhes como nome, instrutor, vagas e alunos matriculados.
 
 5. Matricular aluno em aula
+   
 Para matricular um aluno em uma aula, siga os seguintes passos:
 
 Escolha a opção "5" no menu principal.
@@ -86,6 +91,7 @@ Insira o nome da aula.
 Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
 
 6. Cadastrar nova missão
+   
 Para cadastrar uma nova missão, siga os seguintes passos:
 
 Escolha a opção "6" no menu principal.
@@ -96,12 +102,14 @@ Insira a data de término da missão (formato AAAA-MM-DD).
 Se os dados forem válidos, a missão será cadastrada com sucesso.
 
 7. Consultar missões
+   
 Para consultar todas as missões, siga os seguintes passos:
 
 Escolha a opção "7" no menu principal.
 As missões cadastradas serão exibidas com detalhes como objetivo, equipe designada, datas de início e término, e status.
 
 8. Registrar participação em missão
+   
 Para registrar a participação de um aluno em uma missão, siga os seguintes passos:
 
 Escolha a opção "8" no menu principal.
@@ -110,6 +118,7 @@ Insira o objetivo da missão.
 Se o aluno e a missão forem encontrados, a participação do aluno será registrada na missão.
 
 9. Criar nova equipe
+    
 Para criar uma nova equipe, siga os seguintes passos:
 
 Escolha a opção "9" no menu principal.
@@ -119,12 +128,14 @@ Insira o nome do instrutor.
 Se os membros forem encontrados, a equipe será criada com sucesso.
 
 10. Consultar equipes
+    
 Para consultar todas as equipes, siga os seguintes passos:
 
 Escolha a opção "10" no menu principal.
 As equipes cadastradas serão exibidas com detalhes como nome, instrutor e membros.
 
 11. Sair
+    
 Para sair do sistema, siga os seguintes passos:
 
 Escolha a opção "11" no menu principal.
