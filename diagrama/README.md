@@ -1,74 +1,96 @@
-      
-              Sistema         
-                              
-         cadastrar_aluno()    
-         buscar_alunos()      
-         registrar_matricula()
-         cadastrar_missao()   
-         registrar_participacao()
-         gerar_relatorio_missoes()
-         criar_equipe()       
-         gerenciar_membros()  
-         consultar_equipes()  
-         menu()               
-                        
-        ^                   ^
-        |                   |
-        |                   |
-        |                   |
-        |                   |
-        |                   |
-    | Admin  |       |  Instrutor |
-         
+Classe Sistema:
+
+Mantém listas de alunos, aulas, missões e equipes.
+Fornece métodos para cadastrar e consultar cada entidade.
+Classe Aluno:
+
+Representa um aluno com atributos como nome, idade, habilidades, nível de poder, equipe e status de matrícula.
+Inclui métodos para validar dados, matricular em aula e participar de missão.
+Classe Aula:
+
+Representa uma aula com atributos como nome, instrutor, número de vagas e lista de alunos matriculados.
+Inclui um método para registrar alunos na aula.
+Classe Missao:
+
+Representa uma missão com atributos como objetivo, equipe designada, datas de início e término, status e participantes.
+Inclui um método para registrar participantes.
+Classe Equipe:
+
+Representa uma equipe com atributos como nome, instrutor e lista de membros.
+Inclui métodos para adicionar e remover membros, bem como consultar equipes.
 
 
 
-               Aluno       
-       nome            
-       idade           
-       habilidades     
-       nivel_poder     
-       equipe          
-       status_matricula
-      
-        cadastrar()     
-        buscar()        
 
 
 
-              Missao      
-      
-       objetivo        
-       equipe_designada
-       data_inicio     
-       data_termino    
-       status          
-       participantes   
-      
-        cadastrar()     
-        registrar_participacao()
-        gerar_relatorio()
 
 
 
-             Equipe      
-      
-       nome            
-       membros         
-       instrutor       
-      
-        criar()         
-        gerenciar_membros()
-        consultar()     
 
 
 
-             Aula        
-      
-       nome            
-       instrutor       
-       vagas           
-       alunos_matriculados
-      
-        registrar_matricula()
-      
+
+
+
+
+
+
+
++---------------------+
+|       Sistema       |
++---------------------+
+| - alunos: list      |
+| - aulas: list       |
+| - missoes: list     |
+| - equipes: list     |
++---------------------+
+| + cadastrar_aluno() |
+| + buscar_alunos()   |
+| + cadastrar_aula()  |
+| + consultar_aulas() |
+| + cadastrar_missao()|
+| + consultar_missoes()|
+| + criar_equipe()    |
+| + consultar_equipes()|
++---------------------+
+             |
+             | contains
+             |
++------------+------------+
+|                          |
+|                          |
+V                          V
++-----------------+     +----------------+
+|      Aluno      |     |      Aula      |
++-----------------+     +----------------+
+| - nome: str     |     | - nome: str    |
+| - idade: int    |     | - instrutor: str|
+| - habilidades: list | | - vagas: int   |
+| - nivel_poder: str   | | - alunos: list |
+| - equipe: str   |     +----------------+
+| - status_matricula: str| | + registrar_aluno()|
++-----------------+     +----------------+
+| + validar()     |
+| + matricular_em_aula() |
+| + participar_missao() |
++-----------------+
+             |
+             | participates
+             |
++------------+------------+
+|                          |
+|                          |
+V                          V
++------------------+   +----------------+
+|     Missao       |   |     Equipe     |
++------------------+   +----------------+
+| - objetivo: str  |   | - nome: str    |
+| - equipe_designada: str | - instrutor: str|
+| - data_inicio: str|   | - membros: list |
+| - data_termino: str| +----------------+
+| - status: str    |   | + adicionar_membro()|
+| - participantes: list | | + remover_membro()|
++------------------+   | + consultar_equipes()|
+| + registrar_participante() |
++------------------+ 
