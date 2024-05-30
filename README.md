@@ -5,13 +5,13 @@
 
 <!-- Título centralizado -->
 <div align="center">
-  <h2>:dart: Objetivo </h2>
+  <h2>🎯 Objetivo </h2>
 </div> 
 
 • O Sistema de Gestão Acadêmica foi concebido com a finalidade de proporcionar uma experiência ainda mais eficiente e personalizada aos estudantes da Faculdade dos Xmen. Com funcionalidades cuidadosamente projetadas, o sistema visa simplificar o Cadastro de alunos,consulta de alunos,Matrículas em aulas  e treinamentos,cadastro para missoões,acopanhar a participação em missões e gerenciar as equipes
 <!-- Título centralizado -->
 <div align="center">
-  <h2>:woman_technologist_tone4: Funcionalidades </h2>
+  <h2>👨🏻‍💻 Funcionalidades </h2>
 </div> 
 
 Este projeto oferece as seguintes funcionalidades:
@@ -33,10 +33,10 @@ Este projeto oferece as seguintes funcionalidades:
 
 <!-- Título centralizado -->
 <div align="center">
-  <h2>:fingers_crossed: Como executar o projeto </h2>
+  <h2>🤞🏻 Como executar o projeto </h2>
 </div> 
 
-### 1. :key: Pré-requisitos
+### 1. 🔑 Pré-requisitos
 Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
 - [Python3](https://www.python.org/downloads/)
   
@@ -46,7 +46,7 @@ npm install -g create-react-app
 ``` 
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
-### 2. :round_pushpin: Clonar o Repositório
+### 2. 📍 Clonar o Repositório
 Vamos começar clonando um repositório do GitHub em um diretório local através do terminal, conforme indicado a seguir:
 ```
 git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
@@ -54,7 +54,7 @@ git clone https://github.com/FGA0138-MDS-Ajax/2023-2-KEPLER.git
   	
   
 <div align="center">
-  <h2>:gear: Configurações do projeto </h2>
+  <h2>⚙️ Configurações do projeto </h2>
 </div>
 
 • Certifique-se de ter o Python instalado. O codigo foi desenvolvido em Python.
