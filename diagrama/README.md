@@ -37,60 +37,60 @@ Inclui métodos para adicionar e remover membros, bem como consultar equipes.
 
 
 
-+---------------------+
-|       Sistema       |
-+---------------------+
-| - alunos: list      |
-| - aulas: list       |
-| - missoes: list     |
-| - equipes: list     |
-+---------------------+
-| + cadastrar_aluno() |
-| + buscar_alunos()   |
-| + cadastrar_aula()  |
-| + consultar_aulas() |
-| + cadastrar_missao()|
-| + consultar_missoes()|
-| + criar_equipe()    |
-| + consultar_equipes()|
-+---------------------+
-             |
-             | contains
-             |
-+------------+------------+
-|                          |
-|                          |
-V                          V
-+-----------------+     +----------------+
-|      Aluno      |     |      Aula      |
-+-----------------+     +----------------+
-| - nome: str     |     | - nome: str    |
-| - idade: int    |     | - instrutor: str|
-| - habilidades: list | | - vagas: int   |
-| - nivel_poder: str   | | - alunos: list |
-| - equipe: str   |     +----------------+
-| - status_matricula: str| | + registrar_aluno()|
-+-----------------+     +----------------+
-| + validar()     |
-| + matricular_em_aula() |
-| + participar_missao() |
-+-----------------+
-             |
-             | participates
-             |
-+------------+------------+
-|                          |
-|                          |
-V                          V
-+------------------+   +----------------+
-|     Missao       |   |     Equipe     |
-+------------------+   +----------------+
-| - objetivo: str  |   | - nome: str    |
-| - equipe_designada: str | - instrutor: str|
-| - data_inicio: str|   | - membros: list |
-| - data_termino: str| +----------------+
-| - status: str    |   | + adicionar_membro()|
-| - participantes: list | | + remover_membro()|
-+------------------+   | + consultar_equipes()|
-| + registrar_participante() |
-+------------------+ 
+    +---------------------+
+    |       Sistema       |
+    +---------------------+
+    | - alunos: list      |
+    | - aulas: list       |
+    | - missoes: list     |
+    | - equipes: list     |
+    +---------------------+
+    | + cadastrar_aluno() |
+    | + buscar_alunos()   |
+    | + cadastrar_aula()  |
+    | + consultar_aulas() |
+    | + cadastrar_missao()|
+    | + consultar_missoes()|
+    | + criar_equipe()    |
+    | + consultar_equipes()|
+    +---------------------+
+                 |
+                 | contains
+                 |
+    +------------+------------+
+    |                          |
+    |                          |
+    V                          V
+    +-----------------+     +----------------+
+    |      Aluno      |     |      Aula      |
+    +-----------------+     +----------------+
+    | - nome: str     |     | - nome: str    |
+    | - idade: int    |     | - instrutor: str|
+    | - habilidades: list | | - vagas: int   |
+    | - nivel_poder: str   | | - alunos: list |
+    | - equipe: str   |     +----------------+
+    | - status_matricula: str| | + registrar_aluno()|
+    +-----------------+     +----------------+
+    | + validar()     |
+    | + matricular_em_aula() |
+    | + participar_missao() |
+    +-----------------+
+                 |
+                 | participates
+                 |
+    +------------+------------+
+    |                          |
+    |                          |
+    V                          V
+    +------------------+   +----------------+
+    |     Missao       |   |     Equipe     |
+    +------------------+   +----------------+
+    | - objetivo: str  |   | - nome: str    |
+    | - equipe_designada: str | - instrutor: str|
+    | - data_inicio: str|   | - membros: list |
+    | - data_termino: str| +----------------+
+    | - status: str    |   | + adicionar_membro()|
+    | - participantes: list | | + remover_membro()|
+    +------------------+   | + consultar_equipes()|
+    | + registrar_participante() |
+    +------------------+ 
