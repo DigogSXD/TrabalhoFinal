@@ -1,4 +1,8 @@
-Classe Sistema:
+<div align="center">
+  <h1>Diagrama de todas as classes </h1>
+</div> 
+<h2>Classe Sistema: </h2>
+
 
 Mantém listas de alunos, aulas, missões e equipes.
 Fornece métodos para cadastrar e consultar cada entidade.
