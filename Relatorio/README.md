@@ -92,4 +92,4 @@ Um menu interativo foi criado para permitir ao usuário interagir com o sistema 
 
 O menu apresenta opções numeradas, permitindo que o usuário faça suas escolhas. Após cada seleção, ocorre a validação dos dados inseridos para garantir que estejam corretos.
 
-No final o menu ficou com 11 opções respeitando tudo o que foi pedido.
+No final o menu ficou com 11 opções.
