@@ -12,7 +12,7 @@ Dei uma revisada em como mexer no GitHub corretamente e reorganizei as pastas pa
 Criamos um menu simples onde a pessoa pode fazer 4 opções, que seria Cadastrar Aluno, Buscar Alunos, Registrar Matrícula em Aula e sair, bem simples para ter um norte no que iriamos fazer. Conforme fomos lendo o escopo total do que se pede nos vemos que teremos que arrumar o menu pois vamos ter mais do que 4 opções, pelo que vimos prevemos que serão 10, acrescentando mais 6, Cadastrar Missão, Registrar Participação em Missão, Gerar Relatório de Missões, Criar Equipe, Gerenciar Membros de Equipe, Consultar Equipes e Sair
 
 # 30/05
-"Com o desenvolvimento do projeto, decidi desistir de usar o Pandas, pois não consegui utilizá-lo corretamente e enfrentei muitos erros durante o processo. Lembrei-me do meu professor do semestre passado, que ensinou programação orientada a objetos (OOP), o que me ajudou a relembrar como criar validações e algumas funções (defs) que eu havia desenvolvido anteriormente.
+Com o desenvolvimento do projeto, decidi desistir de usar o Pandas, pois não consegui utilizá-lo corretamente e enfrentei muitos erros durante o processo. Lembrei-me do meu professor do semestre passado, que ensinou programação orientada a objetos (OOP), o que me ajudou a relembrar como criar validações e algumas funções (defs) que eu havia desenvolvido anteriormente.
 
 # 31/05
 Não fiz nada
