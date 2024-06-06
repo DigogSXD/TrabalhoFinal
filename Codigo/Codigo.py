@@ -1,3 +1,57 @@
+import mysql.connector
+
+# Função para conectar ao banco de dados
+def conectar_bd():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="12345678",
+        database="xman"
+    )
+
+# Função para criar as tabelas no banco de dados, se não existirem
+def criar_tabelas():
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Aluno (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255),
+        idade INT,
+        habilidades TEXT,
+        nivel_poder VARCHAR(255),
+        equipe VARCHAR(255),
+        status_matricula VARCHAR(255)
+    )
+    """)
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Aula (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255),
+        instrutor VARCHAR(255),
+        vagas INT
+    )
+    """)
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Missao (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        objetivo VARCHAR(255),
+        equipe_designada VARCHAR(255),
+        data_inicio DATE,
+        data_termino DATE,
+        status VARCHAR(255)
+    )
+    """)
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+criar_tabelas()
+
 class Aluno:
     def __init__(self, nome, idade, habilidades, nivel_poder, equipe=None, status_matricula='Ativo'):
         self.nome = nome
@@ -14,15 +68,57 @@ class Aluno:
             return False
         return True
     
+    def salvar_bd(self):
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("""
+        INSERT INTO Aluno (nome, idade, habilidades, nivel_poder, equipe, status_matricula)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """, (self.nome, self.idade, ','.join(self.habilidades), self.nivel_poder, self.equipe, self.status_matricula))
+        conn.commit()
+        cursor.close()
+        conn.close()
+    
+    @staticmethod
+    def buscar_bd(nome=None, habilidades=None, equipe=None, status_matricula=None):
+        conn = conectar_bd()
+        cursor = conn.cursor(dictionary=True)
+        query = "SELECT * FROM Aluno WHERE 1=1"
+        params = []
+        
+        if nome:
+            query += " AND nome LIKE %s"
+            params.append(f"%{nome}%")
+        
+        if habilidades:
+            query += " AND (" + " OR ".join("habilidades LIKE %s" for _ in habilidades) + ")"
+            params.extend(f"%{hab}%" for hab in habilidades)
+        
+        if equipe:
+            query += " AND equipe = %s"
+            params.append(equipe)
+        
+        if status_matricula:
+            query += " AND status_matricula = %s"
+            params.append(status_matricula)
+        
+        cursor.execute(query, params)
+        resultados = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return resultados
+    
     def matricular_em_aula(self, aula):
         if aula.vagas > 0:
             self.aulas.append(aula)
             aula.registrar_aluno(self)
             aula.vagas -= 1
+            # Atualizar banco de dados aqui se necessário
     
     def participar_missao(self, missao):
         self.missoes.append(missao)
         missao.registrar_participante(self)
+        # Atualizar banco de dados aqui se necessário
 
 class Aula:
     def __init__(self, nome, instrutor, vagas):
@@ -52,39 +148,32 @@ class Sistema:
         self.aulas = []
         self.missoes = []
         self.equipes = []
-
+    
     def cadastrar_aluno(self, aluno):
         if aluno.validar():
+            aluno.salvar_bd()
             self.alunos.append(aluno)
         else:
             print("Dados do aluno inválidos.")
     
     def buscar_alunos(self, nome=None, habilidades=None, equipe=None, status_matricula=None):
-        resultados = []
-        for aluno in self.alunos:
-            if nome and nome not in aluno.nome:
-                continue
-            if habilidades and not any(hab in aluno.habilidades for hab in habilidades):
-                continue
-            if equipe and aluno.equipe != equipe:
-                continue
-            if status_matricula and aluno.status_matricula != status_matricula:
-                continue
-            resultados.append(aluno)
-        return resultados
-
+        return Aluno.buscar_bd(nome, habilidades, equipe, status_matricula)
+    
+    # Funções para cadastrar e consultar aulas
     def cadastrar_aula(self, aula):
         self.aulas.append(aula)
     
     def consultar_aulas(self):
         return self.aulas
-    
+
+    # Funções para cadastrar e consultar missões
     def cadastrar_missao(self, missao):
         self.missoes.append(missao)
     
     def consultar_missoes(self):
         return self.missoes
-    
+
+    # Funções para criar e consultar equipes
     def criar_equipe(self, nome, membros, instrutor):
         equipe = {'nome': nome, 'membros': membros, 'instrutor': instrutor}
         self.equipes.append(equipe)
@@ -143,7 +232,7 @@ def menu():
             resultados = sistema.buscar_alunos(nome, habilidades, equipe, status_matricula)
             if resultados:
                 for aluno in resultados:
-                    print(f"\nNome: {aluno.nome}, Idade: {aluno.idade}, Habilidades: {aluno.habilidades}, Nível de Poder: {aluno.nivel_poder}, Equipe: {aluno.equipe}, Status: {aluno.status_matricula}")
+                    print(f"\nNome: {aluno['nome']}, Idade: {aluno['idade']}, Habilidades: {aluno['habilidades']}, Nível de Poder: {aluno['nivel_poder']}, Equipe: {aluno['equipe']}, Status: {aluno['status_matricula']}")
             else:
                 print("Nenhum aluno encontrado.")
         
@@ -167,7 +256,7 @@ def menu():
             aulas = sistema.consultar_aulas()
             if aulas:
                 for aula in aulas:
-                    print(f"\nNome: {aula.nome}, Instrutor: {aula.instrutor}, Vagas: {aula.vagas}, Alunos matriculados: {len(aula.alunos)}")
+                    print(f"\nNome: {aula.nome}, Instrutor: {aula.instrutor}, Vagas: {aula.vagas}")
             else:
                 print("Nenhuma aula cadastrada.")
         
@@ -242,4 +331,5 @@ def menu():
             print("Opção inválida. Por favor, escolha novamente.")
 
 # Chamar a função de menu
+
 menu()
