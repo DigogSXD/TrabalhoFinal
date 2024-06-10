@@ -59,7 +59,19 @@ Pressione Win + R, digite cmd e pressione Enter.
 Digite o seguinte comando e pressione Enter para verificar a versão do Python instalada:
 ```
 python --version
-``` 
+```
+Passo 4: Instale o conector MySQL:
+Primeiro, você precisa instalar o conector MySQL para Python. Você pode fazer isso usando o pip:
+
+```
+pip install mysql-connector-python
+```
+Passo 5: Configurar a conexão com o banco de dados:
+Crie uma função para conectar ao banco de dados e outra para criar as tabelas necessárias se elas não existirem.
+
+Passo 6: Baixar mysql para consultar as tabelas criadas.
+
+- [Mysql](https://dev.mysql.com/downloads/mysql/8.0.html)
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
 ### 2. 📍 Clonar o Repositório
