@@ -36,7 +36,9 @@ Este projeto oferece as seguintes funcionalidades:
   <h2>🤞🏻 Como executar o projeto </h2>
 </div> 
 
-### 1. 🔑 Pré-requisitos
+<div align="center">
+  <h2>🔑 Pré-requisitos </h2>
+</div> 
 Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
 
 Passo 1: Baixar o Instalador do Python
@@ -60,16 +62,20 @@ Digite o seguinte comando e pressione Enter para verificar a versão do Python i
 ```
 python --version
 ```
-Passo 4: Instale o conector MySQL:
-Primeiro, você precisa instalar o conector MySQL para Python. Você pode fazer isso usando o pip:
+Passo 4: Instale o VsCode
+
+- [VsCode](https://code.visualstudio.com/)
+ 
+Passo 5: Instale o conector MySQL:
+Primeiro, você precisa instalar o conector MySQL para Python. Você pode fazer isso usando o pip dentro do VsCode:
 
 ```
 pip install mysql-connector-python
 ```
-Passo 5: Configurar a conexão com o banco de dados:
+Passo 6: Configurar a conexão com o banco de dados:
 Crie uma função para conectar ao banco de dados e outra para criar as tabelas necessárias se elas não existirem.
 
-Passo 6: Baixar mysql para consultar as tabelas criadas.
+Passo 7: Baixar mysql.
 
 - [Mysql](https://dev.mysql.com/downloads/mysql/8.0.html)
 
