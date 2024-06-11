@@ -68,15 +68,19 @@ Na página inicial, você verá um botão "Download for Windows" (ou "Baixar par
 - [VsCode](https://code.visualstudio.com/)
  
 ### Passo 5: Instale o conector MySQL:
-Primeiro, você precisa instalar o conector MySQL para Python. Você pode fazer isso usando o pip dentro do VsCode:
+Você precisa instalar o conector MySQL para Python. Pode fazer isso usando o pip dentro do VsCode no terminal:
 
 ```
 pip install mysql-connector-python
 ```
 
 ### Passo 6: Baixar mysql.
+Na página de download, você verá duas opções: "MySQL Installer for Windows". Recomendo baixar a versão "MySQL Installer (recommended)" que inclui todos os componentes necessários.
 
 - [Mysql](https://dev.mysql.com/downloads/mysql/8.0.html)
+
+Essa parte é um pouco complicada, vou dísponibilizar um video no youtube que te ensina como baixar o mysql
+- [Como instalar](https://www.youtube.com/watch?v=s0YoPLbox40)
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
 ### 2. 📍 Clonar o Repositório
