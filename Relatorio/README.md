@@ -86,10 +86,18 @@ Criação e Consulta de Equipes: Formação de equipes e gestão dos membros.
 
 # 3/06
 
-3. Criação do Menu Interativo Definitivo
+Criação do Menu Interativo Definitivo
    
 Um menu interativo foi criado para permitir ao usuário interagir com o sistema e acessar todas as funcionalidades.
 
 O menu apresenta opções numeradas, permitindo que o usuário faça suas escolhas. Após cada seleção, ocorre a validação dos dados inseridos para garantir que estejam corretos.
 
 No final o menu ficou com 11 opções.
+
+# 5/06
+
+Fiz a conexão com o banco de dados, configurei a conexão com o banco de dados no codigo e Implementei métodos para salvar e buscar dados no banco de dados.
+
+Adicionei a função conectar_db() para fazer a conexão com mysql.
+
+foi feito o método CRUD na parte 
