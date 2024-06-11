@@ -1,23 +1,44 @@
 import mysql.connector
+from mysql.connector import errorcode
 
-# Função para conectar ao banco de dados
+# Função para conectar ao banco de dados e criar o banco de dados se não existir.
+def criar_db():
+    try:
+        # Veja se a senha está correta caso não consegui conectar
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="ceub123456"
+        )
+        cursor = conn.cursor()
+        
+        # Criar o banco de dados se não existir
+        cursor.execute("CREATE DATABASE IF NOT EXISTS xman")
+        print("Deu certo ele criou ou já existe")
+        cursor.close()
+        conn.close()
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Veja se o usuario ou a senha está errada")
+        else:
+            print(err)
+
+# Função para conectar ao banco de dados xman
 def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="12345678",
+        password="ceub123456",
         database="xman"
     )
 
-# Função para criar as tabelas no banco de dados, se não existirem.
 def criar_tabelas():
+    # Primeiro, criar o banco de dados se não existir
+    criar_db()
+    
+    # Conectar ao banco de dados recém-criado
     conn = conectar_bd()
     cursor = conn.cursor()
-    
-    cursor.execute("""
-    CREATE DATABASE IF NOT EXISTS xman_db;
-        USE xman_db;
-    """)
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Aluno (
@@ -54,9 +75,12 @@ def criar_tabelas():
     conn.commit()
     cursor.close()
     conn.close()
+    print("Tabelas criadas com sucesso.")
 
+# Chamar a função para criar as tabelas
 criar_tabelas()
 
+# Aqui pra baixo é POO
 class Aluno:
     def __init__(self, nome, idade, habilidades, nivel_poder, equipe=None, status_matricula='Ativo'):
         self.nome = nome
@@ -334,7 +358,5 @@ def menu():
         
         else:
             print("Opção inválida. Por favor, escolha novamente.")
-
 # Chamar a função de menu
-
 menu()
