@@ -64,6 +64,8 @@ python --version
 ```
 Passo 4: Instale o VsCode
 
+Na página inicial, você verá um botão "Download for Windows" (ou "Baixar para Windows" se o site estiver em português). Clique nele. O site deve detectar automaticamente o seu sistema operacional e oferecer o download correto.
+
 - [VsCode](https://code.visualstudio.com/)
  
 Passo 5: Instale o conector MySQL:
