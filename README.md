@@ -39,7 +39,6 @@ Este projeto oferece as seguintes funcionalidades:
 <div align="center">
   <h2>🔑 Pré-requisitos </h2>
 </div> 
-Esses são os nossos pré-requisitos, eles garantem uma base sólida para colaboração, ajudando a evitar erros e facilitando a contribuição:
 
 Passo 1: Baixar o Instalador do Python
 Acesse o site oficial do Python.
