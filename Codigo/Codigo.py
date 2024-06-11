@@ -9,11 +9,16 @@ def conectar_bd():
         database="xman"
     )
 
-# Função para criar as tabelas no banco de dados, se não existirem
+# Função para criar as tabelas no banco de dados, se não existirem.
 def criar_tabelas():
     conn = conectar_bd()
     cursor = conn.cursor()
     
+    cursor.execute("""
+    CREATE DATABASE IF NOT EXISTS xman_db;
+        USE xman_db;
+    """)
+
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Aluno (
         id INT AUTO_INCREMENT PRIMARY KEY,
