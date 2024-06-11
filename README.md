@@ -40,20 +40,20 @@ Este projeto oferece as seguintes funcionalidades:
   <h2>🔑 Pré-requisitos </h2>
 </div> 
 
-Passo 1: Baixar o Instalador do Python
+### Passo 1: Baixar o Instalador do Python
 Acesse o site oficial do Python.
 Clique em "Downloads" no menu superior.
 O site deve detectar automaticamente seu sistema operacional e oferecer o instalador adequado. Clique no botão "Download Python [versão mais recente]" para baixar o instalador.
 
 - [Python](https://www.python.org/downloads/)
 
-Passo 2: Executar o Instalador
+### Passo 2: Executar o Instalador
 Abra o arquivo .exe que você acabou de baixar.
 
 Importante: Na primeira tela do instalador, marque a caixa "Add Python to PATH" (Adicionar Python ao PATH). Isso garante que você possa executar o Python e o pip (gerenciador de pacotes do Python) a partir da linha de comando.
 Clique em "Install Now" (Instalar agora) para iniciar a instalação padrão.
 
-Passo 3: Verificar a Instalação
+### Passo 3: Verificar a Instalação
 Abra o Prompt de Comando:
 
 Pressione Win + R, digite cmd e pressione Enter.
@@ -61,22 +61,20 @@ Digite o seguinte comando e pressione Enter para verificar a versão do Python i
 ```
 python --version
 ```
-Passo 4: Instale o VsCode
+### Passo 4: Instale o VsCode
 
 Na página inicial, você verá um botão "Download for Windows" (ou "Baixar para Windows" se o site estiver em português). Clique nele. O site deve detectar automaticamente o seu sistema operacional e oferecer o download correto.
 
 - [VsCode](https://code.visualstudio.com/)
  
-Passo 5: Instale o conector MySQL:
+### Passo 5: Instale o conector MySQL:
 Primeiro, você precisa instalar o conector MySQL para Python. Você pode fazer isso usando o pip dentro do VsCode:
 
 ```
 pip install mysql-connector-python
 ```
-Passo 6: Configurar a conexão com o banco de dados:
-Crie uma função para conectar ao banco de dados e outra para criar as tabelas necessárias se elas não existirem.
 
-Passo 7: Baixar mysql.
+### Passo 6: Baixar mysql.
 
 - [Mysql](https://dev.mysql.com/downloads/mysql/8.0.html)
 
