@@ -79,7 +79,7 @@ Na página de download, você verá duas opções: "MySQL Installer for Windows"
 
 - [Mysql](https://dev.mysql.com/downloads/mysql/8.0.html)
 
-Essa parte é um pouco complicada, vou dísponibilizar um video no youtube que te ensina como baixar o mysql
+Essa parte é um pouco complicada, vou disponibilizar um video no youtube que te ensina como baixar o mysql
 - [Como instalar](https://www.youtube.com/watch?v=s0YoPLbox40)
 
 <!-- Adiciona a funçao de copiar o link do repositorio -->
