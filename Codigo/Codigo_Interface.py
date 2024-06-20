@@ -190,6 +190,27 @@ class Sistema:
     
     def consultar_equipes(self):
         return self.equipes
+    
+
+    #EXCLUIR
+    def excluir_aluno(self, nome_aluno):
+        # Verifica se o aluno está na lista e o remove
+        for aluno in self.alunos:
+            if aluno.nome == nome_aluno:
+                self.alunos.remove(aluno)
+                break
+        else:
+            print(f"Aluno {nome_aluno} não encontrado na lista.")
+            return
+        
+        # Remove o aluno do banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Aluno WHERE nome = %s", (nome_aluno,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Aluno {nome_aluno} excluído do banco de dados.")
 
 sistema = Sistema()
 
@@ -211,6 +232,17 @@ def cadastrar_aluno():
         messagebox.showinfo("Sucesso", "Aluno cadastrado com sucesso!")
     else:
         messagebox.showerror("Erro", "Dados do aluno inválidos.")
+
+#Excluir
+def excluir_aluno():
+    nome_aluno = entry_excluir_aluno.get()
+    if nome_aluno:
+        sistema.excluir_aluno(nome_aluno)
+        messagebox.showinfo("Sucesso", f"Aluno {nome_aluno} excluído com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome do aluno.")
+
+
 
 def consultar_alunos():
     nome = entry_consultar_nome.get() or None
@@ -288,13 +320,12 @@ def consultar_equipes():
         messagebox.showinfo("Resultados", result_text)
     else:
         messagebox.showinfo("Resultados", "Nenhuma equipe cadastrada.")
-
+        
 # Interface gráfica usando Tkinter
 root = tk.Tk()
 root.title("Sistema de Gerenciamento")
 
 tabControl = ttk.Notebook(root)
-
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 tab3 = ttk.Frame(tabControl)
@@ -305,10 +336,12 @@ tab7 = ttk.Frame(tabControl)
 tab8 = ttk.Frame(tabControl)
 tab9 = ttk.Frame(tabControl)
 tab10 = ttk.Frame(tabControl)
+tab11 = ttk.Frame(tabControl)
 
 tabControl.add(tab1, text='Cadastrar Aluno')
 tabControl.add(tab2, text='Consultar Aluno')
 tabControl.add(tab3, text='Cadastrar Aula')
+tabControl.add(tab11, text='Excluir Aluno')
 tabControl.add(tab4, text='Consultar Aula')
 tabControl.add(tab5, text='Matricular em Aula')
 tabControl.add(tab6, text='Cadastrar Missão')
@@ -316,6 +349,8 @@ tabControl.add(tab7, text='Consultar Missão')
 tabControl.add(tab8, text='Registrar em Missão')
 tabControl.add(tab9, text='Criar Equipe')
 tabControl.add(tab10, text='Consultar Equipe')
+
+
 
 tabControl.pack(expand=1, fill="both")
 
@@ -445,4 +480,14 @@ ttk.Button(tab9, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3
 # Aba 10: Consultar Equipe
 ttk.Button(tab10, text="Consultar Equipes", command=consultar_equipes).grid(column=0, row=0, columnspan=2, pady=10)
 
+# Aba 11: Excluir Aluno
+ttk.Label(tab11, text="Nome do Aluno:").grid(column=0, row=0, padx=10, pady=5)
+entry_excluir_aluno = ttk.Entry(tab11)
+entry_excluir_aluno.grid(column=1, row=0, padx=10, pady=5)
+
+ttk.Button(tab11, text="Excluir Aluno", command=excluir_aluno).grid(column=0, row=1, columnspan=2, pady=10)
+
 root.mainloop()
+
+
+
