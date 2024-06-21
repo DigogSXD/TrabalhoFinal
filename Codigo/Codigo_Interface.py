@@ -47,6 +47,7 @@ def criar_tabelas():
         status_matricula VARCHAR(255)
     )
     """)
+
     
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Aula (
@@ -376,11 +377,11 @@ def consultar_equipes():
 def atualizar_aluno():
     nome_original = entry_nome_original.get()
     nome_novo = entry_nome_novo.get() or None
-    idade = entry_idade_nova.get() or None
-    habilidades = entry_habilidades_novas.get().split(',') or None
+    idade = entry_idade_nova.get()
+    habilidades = entry_habilidades_novas.get().split(',') if entry_habilidades_novas.get() else None
     nivel_poder = entry_nivel_poder_novo.get() or None
     equipe = entry_equipe_nova.get() or None
-    status_matricula = entry_status_novo.get() or None
+    status_matricula = entry_status_novo.get()
 
     if idade:
         try:
@@ -393,21 +394,14 @@ def atualizar_aluno():
     messagebox.showinfo("Sucesso", "Aluno atualizado com sucesso!")
 
 
-
-
-
-
-
-
-
         
 # Interface gráfica usando Tkinter
 root = tk.Tk()
 root.title("Sistema de Gerenciamento")
 
 tabControl = ttk.Notebook(root)
-tab1 = ttk.Frame(tabControl)
-tab2 = ttk.Frame(tabControl)
+tab1 = ttk.Frame(tabControl, style='My.TFrame')
+
 tab3 = ttk.Frame(tabControl)
 tab4 = ttk.Frame(tabControl)
 tab5 = ttk.Frame(tabControl)
@@ -416,14 +410,11 @@ tab7 = ttk.Frame(tabControl)
 tab8 = ttk.Frame(tabControl)
 tab9 = ttk.Frame(tabControl)
 tab10 = ttk.Frame(tabControl)
-tab11 = ttk.Frame(tabControl)
-tab12 = ttk.Frame(tabControl)
 
 
-tabControl.add(tab1, text='Cadastrar Aluno')
-tabControl.add(tab2, text='Consultar Aluno')
-tabControl.add(tab12, text='Atualizar Aluno')
-tabControl.add(tab11, text='Excluir Aluno')
+
+
+tabControl.add(tab1, text='CRUD Aluno')
 tabControl.add(tab3, text='Cadastrar Aula')
 tabControl.add(tab4, text='Consultar Aula')
 tabControl.add(tab5, text='Matricular em Aula')
@@ -437,6 +428,8 @@ tabControl.add(tab10, text='Consultar Equipe')
 
 
 tabControl.pack(expand=1, fill="both")
+style = ttk.Style()
+style.configure('My.TFrame', background='#1e3c5f')
 
 # Aba 1: Cadastrar Aluno
 ttk.Label(tab1, text="Nome:").grid(column=0, row=0, padx=10, pady=5)
@@ -465,24 +458,81 @@ entry_status.grid(column=1, row=5, padx=10, pady=5)
 
 ttk.Button(tab1, text="Cadastrar Aluno", command=cadastrar_aluno).grid(column=0, row=6, columnspan=2, pady=10)
 
-# Aba 2: Consultar Aluno
-ttk.Label(tab2, text="Nome:").grid(column=0, row=0, padx=10, pady=5)
-entry_consultar_nome = ttk.Entry(tab2)
-entry_consultar_nome.grid(column=1, row=0, padx=10, pady=5)
+# Aba 1: Consultar Aluno
+ttk.Label(tab1, text="Nome:").grid(column=3, row=0, padx=10, pady=5)
+entry_consultar_nome = ttk.Entry(tab1)
+entry_consultar_nome.grid(column=4, row=0, padx=10, pady=5)
 
-ttk.Label(tab2, text="Habilidades:").grid(column=0, row=1, padx=10, pady=5)
-entry_consultar_habilidades = ttk.Entry(tab2)
-entry_consultar_habilidades.grid(column=1, row=1, padx=10, pady=5)
+ttk.Label(tab1, text="Habilidades:").grid(column=3, row=1, padx=10, pady=5)
+entry_consultar_habilidades = ttk.Entry(tab1)
+entry_consultar_habilidades.grid(column=4, row=1, padx=10, pady=5)
 
-ttk.Label(tab2, text="Equipe:").grid(column=0, row=2, padx=10, pady=5)
-entry_consultar_equipe = ttk.Entry(tab2)
-entry_consultar_equipe.grid(column=1, row=2, padx=10, pady=5)
+ttk.Label(tab1, text="Equipe:").grid(column=3, row=2, padx=10, pady=5)
+entry_consultar_equipe = ttk.Entry(tab1)
+entry_consultar_equipe.grid(column=4, row=2, padx=10, pady=5)
 
-ttk.Label(tab2, text="Status de Matrícula:").grid(column=0, row=3, padx=10, pady=5)
-entry_consultar_status = ttk.Entry(tab2)
-entry_consultar_status.grid(column=1, row=3, padx=10, pady=5)
+ttk.Label(tab1, text="Status de Matrícula:").grid(column=3, row=3, padx=10, pady=5)
+entry_consultar_status = ttk.Entry(tab1)
+entry_consultar_status.grid(column=4, row=3, padx=10, pady=5)
 
-ttk.Button(tab2, text="Consultar Alunos", command=consultar_alunos).grid(column=0, row=4, columnspan=2, pady=10)
+ttk.Button(tab1, text="Consultar Alunos", command=consultar_alunos).grid(column=3, row=4, columnspan=2, pady=10)
+
+# Aba 1: Atualizar Aluno
+ttk.Label(tab1, text="Nome Original:").grid(column=5, row=0, padx=10, pady=5)
+entry_nome_original = ttk.Entry(tab1)
+entry_nome_original.grid(column=6, row=0, padx=10, pady=5)
+
+ttk.Label(tab1, text="Novo Nome:").grid(column=5, row=1, padx=10, pady=5)
+entry_nome_novo = ttk.Entry(tab1)
+entry_nome_novo.grid(column=6, row=1, padx=10, pady=5)
+
+ttk.Label(tab1, text="Nova Idade:").grid(column=5, row=2, padx=10, pady=5)
+entry_idade_nova = ttk.Entry(tab1)
+entry_idade_nova.grid(column=6, row=2, padx=10, pady=5)
+
+ttk.Label(tab1, text="Novas Habilidades:").grid(column=5, row=3, padx=10, pady=5)
+entry_habilidades_novas = ttk.Entry(tab1)
+entry_habilidades_novas.grid(column=6, row=3, padx=10, pady=5)
+
+ttk.Label(tab1, text="Novo Nível de Poder:").grid(column=5, row=4, padx=10, pady=5)
+entry_nivel_poder_novo = ttk.Entry(tab1)
+entry_nivel_poder_novo.grid(column=6, row=4, padx=10, pady=5)
+
+ttk.Label(tab1, text="Nova Equipe:").grid(column=5, row=5, padx=10, pady=5)
+entry_equipe_nova = ttk.Entry(tab1)
+entry_equipe_nova.grid(column=6, row=5, padx=10, pady=5)
+
+ttk.Label(tab1, text="Novo Status de Matrícula:").grid(column=5, row=6, padx=10, pady=5)
+entry_status_novo = ttk.Entry(tab1)
+entry_status_novo.grid(column=6, row=6, padx=10, pady=5)
+
+ttk.Button(tab1, text="Atualizar Aluno", command=atualizar_aluno).grid(column=5, row=7, columnspan=2, pady=10)
+
+# Aba 11: Excluir Aluno
+ttk.Label(tab1, text="Nome do Aluno:").grid(column=7, row=0, padx=10, pady=5)
+entry_excluir_aluno = ttk.Entry(tab1)
+entry_excluir_aluno.grid(column=8, row=0, padx=10, pady=5)
+
+ttk.Button(tab1, text="Excluir Aluno", command=excluir_aluno).grid(column=7, row=1, columnspan=2, pady=10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Aba 3: Cadastrar Aula
 ttk.Label(tab3, text="Nome da Aula:").grid(column=0, row=0, padx=10, pady=5)
@@ -564,43 +614,7 @@ ttk.Button(tab9, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3
 # Aba 10: Consultar Equipe
 ttk.Button(tab10, text="Consultar Equipes", command=consultar_equipes).grid(column=0, row=0, columnspan=2, pady=10)
 
-# Aba 11: Excluir Aluno
-ttk.Label(tab11, text="Nome do Aluno:").grid(column=0, row=0, padx=10, pady=5)
-entry_excluir_aluno = ttk.Entry(tab11)
-entry_excluir_aluno.grid(column=1, row=0, padx=10, pady=5)
 
-ttk.Button(tab11, text="Excluir Aluno", command=excluir_aluno).grid(column=0, row=1, columnspan=2, pady=10)
-
-# Aba 12: Atualizar Aluno
-ttk.Label(tab12, text="Nome Original:").grid(column=0, row=0, padx=10, pady=5)
-entry_nome_original = ttk.Entry(tab12)
-entry_nome_original.grid(column=1, row=0, padx=10, pady=5)
-
-ttk.Label(tab12, text="Novo Nome:").grid(column=0, row=1, padx=10, pady=5)
-entry_nome_novo = ttk.Entry(tab12)
-entry_nome_novo.grid(column=1, row=1, padx=10, pady=5)
-
-ttk.Label(tab12, text="Nova Idade:").grid(column=0, row=2, padx=10, pady=5)
-entry_idade_nova = ttk.Entry(tab12)
-entry_idade_nova.grid(column=1, row=2, padx=10, pady=5)
-
-ttk.Label(tab12, text="Novas Habilidades:").grid(column=0, row=3, padx=10, pady=5)
-entry_habilidades_novas = ttk.Entry(tab12)
-entry_habilidades_novas.grid(column=1, row=3, padx=10, pady=5)
-
-ttk.Label(tab12, text="Novo Nível de Poder:").grid(column=0, row=4, padx=10, pady=5)
-entry_nivel_poder_novo = ttk.Entry(tab12)
-entry_nivel_poder_novo.grid(column=1, row=4, padx=10, pady=5)
-
-ttk.Label(tab12, text="Nova Equipe:").grid(column=0, row=5, padx=10, pady=5)
-entry_equipe_nova = ttk.Entry(tab12)
-entry_equipe_nova.grid(column=1, row=5, padx=10, pady=5)
-
-ttk.Label(tab12, text="Novo Status de Matrícula:").grid(column=0, row=6, padx=10, pady=5)
-entry_status_novo = ttk.Entry(tab12)
-entry_status_novo.grid(column=1, row=6, padx=10, pady=5)
-
-ttk.Button(tab12, text="Atualizar Aluno", command=atualizar_aluno).grid(column=0, row=7, columnspan=2, pady=10)
 
 
 
