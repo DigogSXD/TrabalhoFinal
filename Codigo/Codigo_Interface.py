@@ -212,6 +212,55 @@ class Sistema:
         conn.close()
         print(f"Aluno {nome_aluno} excluído do banco de dados.")
 
+
+
+    #UPDATE
+    def atualizar_aluno(self, nome_original, nome_novo=None, idade=None, habilidades=None, nivel_poder=None, equipe=None, status_matricula=None):
+        aluno_encontrado = None
+
+        for aluno in self.alunos:
+            if aluno.nome == nome_original:
+                aluno_encontrado = aluno
+                break
+        else:
+            print(f"Aluno {nome_original} não encontrado na lista.")
+            return
+        
+        # Atualizar dados na lista de alunos
+        if nome_novo:
+            aluno_encontrado.nome = nome_novo
+        if idade:
+            aluno_encontrado.idade = idade
+        if habilidades:
+            aluno_encontrado.habilidades = habilidades
+        if nivel_poder:
+            aluno_encontrado.nivel_poder = nivel_poder
+        if equipe:
+            aluno_encontrado.equipe = equipe
+        if status_matricula:
+            aluno_encontrado.status_matricula = status_matricula
+
+        # Atualizar dados no banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE Aluno SET nome=%s, idade=%s, habilidades=%s, nivel_poder=%s, equipe=%s, status_matricula=%s
+            WHERE nome=%s
+        """, (nome_novo or aluno_encontrado.nome, idade or aluno_encontrado.idade, ','.join(habilidades) if habilidades else ','.join(aluno_encontrado.habilidades), nivel_poder or aluno_encontrado.nivel_poder, equipe or aluno_encontrado.equipe, status_matricula or aluno_encontrado.status_matricula, nome_original))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Aluno {nome_original} atualizado com sucesso.") 
+
+
+    
+
+
+
+
+
+
+
 sistema = Sistema()
 
 # Funções de interface gráfica
@@ -320,6 +369,37 @@ def consultar_equipes():
         messagebox.showinfo("Resultados", result_text)
     else:
         messagebox.showinfo("Resultados", "Nenhuma equipe cadastrada.")
+
+
+
+# Função para atualizar aluno na interface gráfica
+def atualizar_aluno():
+    nome_original = entry_nome_original.get()
+    nome_novo = entry_nome_novo.get() or None
+    idade = entry_idade_nova.get() or None
+    habilidades = entry_habilidades_novas.get().split(',') or None
+    nivel_poder = entry_nivel_poder_novo.get() or None
+    equipe = entry_equipe_nova.get() or None
+    status_matricula = entry_status_novo.get() or None
+
+    if idade:
+        try:
+            idade = int(idade)
+        except ValueError:
+            messagebox.showerror("Erro", "Idade deve ser um número inteiro")
+            return
+    
+    sistema.atualizar_aluno(nome_original, nome_novo, idade, habilidades, nivel_poder, equipe, status_matricula)
+    messagebox.showinfo("Sucesso", "Aluno atualizado com sucesso!")
+
+
+
+
+
+
+
+
+
         
 # Interface gráfica usando Tkinter
 root = tk.Tk()
@@ -337,11 +417,14 @@ tab8 = ttk.Frame(tabControl)
 tab9 = ttk.Frame(tabControl)
 tab10 = ttk.Frame(tabControl)
 tab11 = ttk.Frame(tabControl)
+tab12 = ttk.Frame(tabControl)
+
 
 tabControl.add(tab1, text='Cadastrar Aluno')
 tabControl.add(tab2, text='Consultar Aluno')
-tabControl.add(tab3, text='Cadastrar Aula')
+tabControl.add(tab12, text='Atualizar Aluno')
 tabControl.add(tab11, text='Excluir Aluno')
+tabControl.add(tab3, text='Cadastrar Aula')
 tabControl.add(tab4, text='Consultar Aula')
 tabControl.add(tab5, text='Matricular em Aula')
 tabControl.add(tab6, text='Cadastrar Missão')
@@ -349,6 +432,7 @@ tabControl.add(tab7, text='Consultar Missão')
 tabControl.add(tab8, text='Registrar em Missão')
 tabControl.add(tab9, text='Criar Equipe')
 tabControl.add(tab10, text='Consultar Equipe')
+
 
 
 
@@ -487,7 +571,39 @@ entry_excluir_aluno.grid(column=1, row=0, padx=10, pady=5)
 
 ttk.Button(tab11, text="Excluir Aluno", command=excluir_aluno).grid(column=0, row=1, columnspan=2, pady=10)
 
+# Aba 12: Atualizar Aluno
+ttk.Label(tab12, text="Nome Original:").grid(column=0, row=0, padx=10, pady=5)
+entry_nome_original = ttk.Entry(tab12)
+entry_nome_original.grid(column=1, row=0, padx=10, pady=5)
+
+ttk.Label(tab12, text="Novo Nome:").grid(column=0, row=1, padx=10, pady=5)
+entry_nome_novo = ttk.Entry(tab12)
+entry_nome_novo.grid(column=1, row=1, padx=10, pady=5)
+
+ttk.Label(tab12, text="Nova Idade:").grid(column=0, row=2, padx=10, pady=5)
+entry_idade_nova = ttk.Entry(tab12)
+entry_idade_nova.grid(column=1, row=2, padx=10, pady=5)
+
+ttk.Label(tab12, text="Novas Habilidades:").grid(column=0, row=3, padx=10, pady=5)
+entry_habilidades_novas = ttk.Entry(tab12)
+entry_habilidades_novas.grid(column=1, row=3, padx=10, pady=5)
+
+ttk.Label(tab12, text="Novo Nível de Poder:").grid(column=0, row=4, padx=10, pady=5)
+entry_nivel_poder_novo = ttk.Entry(tab12)
+entry_nivel_poder_novo.grid(column=1, row=4, padx=10, pady=5)
+
+ttk.Label(tab12, text="Nova Equipe:").grid(column=0, row=5, padx=10, pady=5)
+entry_equipe_nova = ttk.Entry(tab12)
+entry_equipe_nova.grid(column=1, row=5, padx=10, pady=5)
+
+ttk.Label(tab12, text="Novo Status de Matrícula:").grid(column=0, row=6, padx=10, pady=5)
+entry_status_novo = ttk.Entry(tab12)
+entry_status_novo.grid(column=1, row=6, padx=10, pady=5)
+
+ttk.Button(tab12, text="Atualizar Aluno", command=atualizar_aluno).grid(column=0, row=7, columnspan=2, pady=10)
+
+
+
+
+
 root.mainloop()
-
-
-
