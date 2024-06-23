@@ -20,19 +20,17 @@ Quando você iniciar o sistema, verá o menu principal com as seguintes opções
 
 2.Crud Aula
 
-3. Matricular aluno em aula
+3.Crud Equipe
 
-4. Cadastrar nova missão
+4. Matricular aluno em aula
 
-5. Consultar missões
+5. Cadastrar nova missão
 
-6. Registrar participação em missão
+6. Consultar missões
 
-7. Criar nova equipe
+7. Registrar participação em missão
 
-8. Consultar equipes
-
-9. Sair
+8. Sair
     
 Digite o número da opção desejada e pressione Enter para acessar a funcionalidade correspondente.
 <div>
@@ -110,7 +108,42 @@ Escolha a opção "Excluir Aula" no menu principal.
 Escolha a opção " NOME DA AULA" no menu principal.
 Se a aula estiver cadastrado corretamente ele sera excluido.
 
-3. Matricular aluno em aula
+3. Crud Equipe
+   
+3.1. Para cadastrar uma nova equipe, siga os seguintes passos:
+
+Escolha a opção "NOME" no menu principal.
+Insira o nome da equipe.
+Insira o nomes dos membros.
+Insira o nome do instrutor.
+Se os dados forem válidos, a equipe sera criada com sucesso.
+
+3.2. Para consultar equipes, siga os seguintes passos:
+
+Escolha a opção "Consultar equipe" no menu principal.
+Insira os critérios de busca (nome,instrutor). Você pode deixar os campos em branco para ignorar o critério.
+As equipes que correspondem aos critérios de busca serão exibidos.
+
+3.3. Para atualizar a equipe siga os seguintes passos:
+
+Escolha a opção "Atualizarvequipe" no menu principal.
+Escolha a opção " NOME Orignal" no menu principal.
+Insira o nome da equipe.
+Insira o novo nome da equipe.
+Insira o nome do novo instrutor.  
+para atualizar insira o novo nome da equipe 
+Insira os nomes dos novos integrantes 
+
+Se os dados forem válidos, o aluno será atualizado com sucesso.
+
+3.4. Para Excluir os alunos, siga os seguintes passos:
+
+Escolha a opção "Excluir Aluno" no menu principal.
+Escolha a opção " NOME" no menu principal.
+Se o aluno estiver cadastrado corretamente ele sera excluido.
+
+
+4. Matricular aluno em aula
    
 Para matricular um aluno em uma aula, siga os seguintes passos:
 
@@ -119,7 +152,7 @@ Insira o nome do aluno.
 Insira o nome da aula.
 Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
 
-4. Cadastrar nova missão
+5. Cadastrar nova missão
    
 Para cadastrar uma nova missão, siga os seguintes passos:
 
@@ -130,14 +163,14 @@ Insira a data de início da missão (formato AAAA-MM-DD).
 Insira a data de término da missão (formato AAAA-MM-DD).
 Se os dados forem válidos, a missão será cadastrada com sucesso.
 
-5. Consultar missões
+6. Consultar missões
    
 Para consultar todas as missões, siga os seguintes passos:
 
 Escolha a opção "7" no menu principal.
 As missões cadastradas serão exibidas com detalhes como objetivo, equipe designada, datas de início e término, e status.
 
-6. Registrar participação em missão
+7. Registrar participação em missão
    
 Para registrar a participação de um aluno em uma missão, siga os seguintes passos:
 
@@ -146,24 +179,8 @@ Insira o nome do aluno.
 Insira o objetivo da missão.
 Se o aluno e a missão forem encontrados, a participação do aluno será registrada na missão.
 
-7. Criar nova equipe
-    
-Para criar uma nova equipe, siga os seguintes passos:
 
-Escolha a opção "9" no menu principal.
-Insira o nome da equipe.
-Insira os nomes dos membros da equipe, separados por vírgulas.
-Insira o nome do instrutor.
-Se os membros forem encontrados, a equipe será criada com sucesso.
-
-8. Consultar equipes
-    
-Para consultar todas as equipes, siga os seguintes passos:
-
-Escolha a opção "10" no menu principal.
-As equipes cadastradas serão exibidas com detalhes como nome, instrutor e membros.
-
-9. Sair
+8. Sair
     
 Para sair do sistema, siga os seguintes passos:
 
