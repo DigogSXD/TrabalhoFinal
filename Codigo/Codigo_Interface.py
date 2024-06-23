@@ -318,12 +318,87 @@ class Sistema:
         print(f"Aula {nome_aula} excluída do banco de dados.")
 
 
+    # Método para atualizar uma equipe
+    def atualizar_equipe(self, nome_equipe, novo_nome=None, novos_membros=None, novo_instrutor=None):
+        equipe_encontrada = None
+
+        for equipe in self.equipes:
+            if equipe['nome'] == nome_equipe:
+                equipe_encontrada = equipe
+                break
+
+        if not equipe_encontrada:
+            print(f"Equipe {nome_equipe} não encontrada.")
+            return
+
+        if novo_nome:
+            equipe_encontrada['nome'] = novo_nome
+        if novos_membros:
+            equipe_encontrada['membros'] = novos_membros
+        if novo_instrutor:
+            equipe_encontrada['instrutor'] = novo_instrutor
+
+        # Atualiza a equipe no banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+
+        if novo_nome:
+            cursor.execute("UPDATE Equipe SET nome = %s WHERE nome = %s", (novo_nome, nome_equipe))
+
+        if novo_instrutor:
+            cursor.execute("UPDATE Equipe SET instrutor = %s WHERE nome = %s", (novo_instrutor, novo_nome or nome_equipe))
+
+        if novos_membros:
+            cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
+            for membro in novos_membros:
+                cursor.execute("INSERT INTO Membros_Equipe (equipe_nome, membro_nome) VALUES (%s, %s)", (novo_nome or nome_equipe, membro.nome))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Equipe {nome_equipe} atualizada com sucesso.")
+
+
+    # Método para excluir uma equipe
+    def excluir_equipe(self, nome_equipe):
+        # Verifica se a equipe está na lista e a remove
+        for equipe in self.equipes:
+            if equipe['nome'] == nome_equipe:
+                self.equipes.remove(equipe)
+                break
+        else:
+            print(f"Equipe {nome_equipe} não encontrada na lista.")
+            return
+        
+        # Remove a equipe e seus membros do banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
+        cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome_equipe,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Equipe {nome_equipe} excluída do banco de dados.")
+
 
 
 
 
 
 sistema = Sistema()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -491,9 +566,30 @@ def excluir_aula():
     else:
         messagebox.showerror("Erro", "Por favor, informe o nome da aula.")
 
+# Função para atualizar equipe na interface gráfica
+def atualizar_equipe():
+    nome_equipe = entry_nome_equipe.get()
+    novo_nome = entry_novo_nome_equipe.get()
+    novo_instrutor = entry_novo_instrutor_equipe.get()
+    novos_membros_nomes = entry_novos_membros_equipe.get().split(',')
+
+    if nome_equipe:
+        novos_membros = [aluno for aluno in sistema.alunos if aluno.nome in novos_membros_nomes]
+        sistema.atualizar_equipe(nome_equipe, novo_nome, novos_membros, novo_instrutor)
+        messagebox.showinfo("Sucesso", f"Equipe {nome_equipe} atualizada com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
 
 
 
+# Função para excluir equipe na interface gráfica
+def excluir_equipe():
+    nome_equipe = entry_nome_equipe_excluir.get()
+    if nome_equipe:
+        sistema.excluir_equipe(nome_equipe)
+        messagebox.showinfo("Sucesso", f"Equipe {nome_equipe} excluída com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
 
 
 
@@ -520,13 +616,13 @@ root.title("Sistema de Gerenciamento")
 
 tabControl = ttk.Notebook(root)
 tab1 = ttk.Frame(tabControl, style='My.TFrame')
-tab2 = ttk.Frame(tabControl)
+tab2 = ttk.Frame(tabControl, style='My.TFrame')
+tab3 = ttk.Frame(tabControl, style='My.TFrame')
+tab5 = ttk.Frame(tabControl, style='My.TFrame')
+tab6 = ttk.Frame(tabControl, style='My.TFrame')
+tab7 = ttk.Frame(tabControl, style='My.TFrame')
+tab8 = ttk.Frame(tabControl, style='My.TFrame')
 
-tab5 = ttk.Frame(tabControl)
-tab6 = ttk.Frame(tabControl)
-tab7 = ttk.Frame(tabControl)
-tab8 = ttk.Frame(tabControl)
-tab9 = ttk.Frame(tabControl)
 
 
 
@@ -534,11 +630,12 @@ tab9 = ttk.Frame(tabControl)
 
 tabControl.add(tab1, text='CRUD Aluno')
 tabControl.add(tab2, text='CRUD Aula')
+tabControl.add(tab3, text='CRUD Equipe')
 tabControl.add(tab5, text='Matricular em Aula')
 tabControl.add(tab6, text='Cadastrar Missão')
 tabControl.add(tab7, text='Consultar Missão')
 tabControl.add(tab8, text='Registrar em Missão')
-tabControl.add(tab9, text='Criar Equipe')
+
 
 
 
@@ -792,23 +889,51 @@ ttk.Button(tab8, text="Registrar em Missão").grid(column=0, row=2, columnspan=2
 
 
 # Aba 9: Criar Equipe
-ttk.Label(tab9, text="Nome da Equipe:").grid(column=0, row=0, padx=10, pady=5)
-entry_nome_equipe = ttk.Entry(tab9)
+ttk.Label(tab3, text="Nome da Equipe:").grid(column=0, row=0, padx=10, pady=5)
+entry_nome_equipe = ttk.Entry(tab3)
 entry_nome_equipe.grid(column=1, row=0, padx=10, pady=5)
 
-ttk.Label(tab9, text="Nomes dos Membros:").grid(column=0, row=1, padx=10, pady=5)
-entry_nomes_membros = ttk.Entry(tab9)
+ttk.Label(tab3, text="Nomes dos Membros:").grid(column=0, row=1, padx=10, pady=5)
+entry_nomes_membros = ttk.Entry(tab3)
 entry_nomes_membros.grid(column=1, row=1, padx=10, pady=5)
 
-ttk.Label(tab9, text="Instrutor:").grid(column=0, row=2, padx=10, pady=5)
-entry_instrutor_equipe = ttk.Entry(tab9)
+ttk.Label(tab3, text="Instrutor:").grid(column=0, row=2, padx=10, pady=5)
+entry_instrutor_equipe = ttk.Entry(tab3)
 entry_instrutor_equipe.grid(column=1, row=2, padx=10, pady=5)
 
-ttk.Button(tab9, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3, columnspan=2, pady=10)
+ttk.Button(tab3, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3, columnspan=2, pady=10)
 
 # Aba 10: Consultar Equipe
-ttk.Button(tab9, text="Consultar Equipes", command=consultar_equipes).grid(column=2, row=0, columnspan=2, pady=10)
+ttk.Button(tab3, text="Consultar Equipes", command=consultar_equipes).grid(column=2, row=0, columnspan=2, pady=10)
 
+
+
+# Atualizar Equipe
+ttk.Label(tab3, text="Nome da Equipe:").grid(column=4, row=0, padx=10, pady=5)
+entry_nome_equipe = ttk.Entry(tab3)
+entry_nome_equipe.grid(column=5, row=0, padx=10, pady=5)
+
+ttk.Label(tab3, text="Novo Nome da Equipe:").grid(column=4, row=1, padx=10, pady=5)
+entry_novo_nome_equipe = ttk.Entry(tab3)
+entry_novo_nome_equipe.grid(column=5, row=1, padx=10, pady=5)
+
+ttk.Label(tab3, text="Novo Instrutor da Equipe:").grid(column=4, row=2, padx=10, pady=5)
+entry_novo_instrutor_equipe = ttk.Entry(tab3)
+entry_novo_instrutor_equipe.grid(column=5, row=2, padx=10, pady=5)
+
+ttk.Label(tab3, text="Novos Membros da Equipe (nomes separados por vírgula):").grid(column=4, row=3, padx=10, pady=5)
+entry_novos_membros_equipe = ttk.Entry(tab3)
+entry_novos_membros_equipe.grid(column=5, row=3, padx=10, pady=5)
+
+ttk.Button(tab3, text="Atualizar Equipe", command=atualizar_equipe).grid(column=5, row=4, columnspan=1, pady=10)
+
+
+# Excluir Equipe
+ttk.Label(tab3, text="Nome da Equipe para Excluir:").grid(column=6, row=0, padx=10, pady=5)
+entry_nome_equipe_excluir = ttk.Entry(tab3)
+entry_nome_equipe_excluir.grid(column=7, row=0, padx=10, pady=5)
+
+ttk.Button(tab3, text="Excluir Equipe", command=excluir_equipe).grid(column=6, row=1, columnspan=2, pady=10)
 
 
 
