@@ -76,6 +76,16 @@ def criar_tabelas():
 
 criar_tabelas()
 
+
+
+
+
+
+
+
+
+
+
 class Aluno:
     def __init__(self, nome, idade, habilidades, nivel_poder, equipe=None, status_matricula='Ativo'):
         self.nome = nome
@@ -254,7 +264,58 @@ class Sistema:
         print(f"Aluno {nome_original} atualizado com sucesso.") 
 
 
-    
+    def atualizar_aula(self, nome_original, nome_novo=None, instrutor=None, vagas=None):
+        aula_encontrada = None
+
+        for aula in self.aulas:
+            if aula.nome == nome_original:
+                aula_encontrada = aula
+                break
+        else:
+            print(f"Aula {nome_original} não encontrada na lista.")
+            return
+
+        # Atualizar dados na lista de aulas
+        if nome_novo:
+            aula_encontrada.nome = nome_novo
+        if instrutor:
+            aula_encontrada.instrutor = instrutor
+        if vagas:
+            aula_encontrada.vagas = vagas
+
+        # Atualizar dados no banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE Aula SET nome=%s, instrutor=%s, vagas=%s
+            WHERE nome=%s
+        """, (nome_novo or aula_encontrada.nome, instrutor or aula_encontrada.instrutor, vagas or aula_encontrada.vagas, nome_original))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Aula {nome_original} atualizada com sucesso.")
+
+
+
+    # Método para excluir uma aula
+    def excluir_aula(self, nome_aula):
+        # Verifica se a aula está na lista e a remove
+        for aula in self.aulas:
+            if aula.nome == nome_aula:
+                self.aulas.remove(aula)
+                break
+        else:
+            print(f"Aula {nome_aula} não encontrada na lista.")
+            return
+        
+        # Remove a aula do banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Aula WHERE nome = %s", (nome_aula,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Aula {nome_aula} excluída do banco de dados.")
 
 
 
@@ -263,6 +324,18 @@ class Sistema:
 
 
 sistema = Sistema()
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Funções de interface gráfica
 def cadastrar_aluno():
@@ -393,6 +466,52 @@ def atualizar_aluno():
     sistema.atualizar_aluno(nome_original, nome_novo, idade, habilidades, nivel_poder, equipe, status_matricula)
     messagebox.showinfo("Sucesso", "Aluno atualizado com sucesso!")
 
+def atualizar_aula():
+    nome_original = entry_nome_aula_original.get()
+    nome_novo = entry_nome_aula_novo.get() or None
+    instrutor = entry_instrutor_aula.get() or None
+    vagas = entry_vagas_aula.get()
+    
+    if vagas:
+        try:
+            vagas = int(vagas)
+        except ValueError:
+            messagebox.showerror("Erro", "Número de vagas deve ser um número inteiro")
+            return
+    
+    sistema.atualizar_aula(nome_original, nome_novo, instrutor, vagas)
+    messagebox.showinfo("Sucesso", "Aula atualizada com sucesso!")
+
+# Função para excluir aula na interface gráfica
+def excluir_aula():
+    nome_aula = entry_nome_aula_excluir.get()
+    if nome_aula:
+        sistema.excluir_aula(nome_aula)
+        messagebox.showinfo("Sucesso", f"Aula {nome_aula} excluída com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome da aula.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
 # Interface gráfica usando Tkinter
@@ -401,28 +520,26 @@ root.title("Sistema de Gerenciamento")
 
 tabControl = ttk.Notebook(root)
 tab1 = ttk.Frame(tabControl, style='My.TFrame')
+tab2 = ttk.Frame(tabControl)
 
-tab3 = ttk.Frame(tabControl)
-tab4 = ttk.Frame(tabControl)
 tab5 = ttk.Frame(tabControl)
 tab6 = ttk.Frame(tabControl)
 tab7 = ttk.Frame(tabControl)
 tab8 = ttk.Frame(tabControl)
 tab9 = ttk.Frame(tabControl)
-tab10 = ttk.Frame(tabControl)
+
 
 
 
 
 tabControl.add(tab1, text='CRUD Aluno')
-tabControl.add(tab3, text='Cadastrar Aula')
-tabControl.add(tab4, text='Consultar Aula')
+tabControl.add(tab2, text='CRUD Aula')
 tabControl.add(tab5, text='Matricular em Aula')
 tabControl.add(tab6, text='Cadastrar Missão')
 tabControl.add(tab7, text='Consultar Missão')
 tabControl.add(tab8, text='Registrar em Missão')
 tabControl.add(tab9, text='Criar Equipe')
-tabControl.add(tab10, text='Consultar Equipe')
+
 
 
 
@@ -458,7 +575,7 @@ entry_status.grid(column=1, row=5, padx=10, pady=5)
 
 ttk.Button(tab1, text="Cadastrar Aluno", command=cadastrar_aluno).grid(column=0, row=6, columnspan=2, pady=10)
 
-# Aba 1: Consultar Aluno
+#Consultar Aluno
 ttk.Label(tab1, text="Nome:").grid(column=3, row=0, padx=10, pady=5)
 entry_consultar_nome = ttk.Entry(tab1)
 entry_consultar_nome.grid(column=4, row=0, padx=10, pady=5)
@@ -477,7 +594,7 @@ entry_consultar_status.grid(column=4, row=3, padx=10, pady=5)
 
 ttk.Button(tab1, text="Consultar Alunos", command=consultar_alunos).grid(column=3, row=4, columnspan=2, pady=10)
 
-# Aba 1: Atualizar Aluno
+#Atualizar Aluno
 ttk.Label(tab1, text="Nome Original:").grid(column=5, row=0, padx=10, pady=5)
 entry_nome_original = ttk.Entry(tab1)
 entry_nome_original.grid(column=6, row=0, padx=10, pady=5)
@@ -487,7 +604,7 @@ entry_nome_novo = ttk.Entry(tab1)
 entry_nome_novo.grid(column=6, row=1, padx=10, pady=5)
 
 ttk.Label(tab1, text="Nova Idade:").grid(column=5, row=2, padx=10, pady=5)
-entry_idade_nova = ttk.Entry(tab1)
+entry_idade_nova = ttk.Entry(tab1)  
 entry_idade_nova.grid(column=6, row=2, padx=10, pady=5)
 
 ttk.Label(tab1, text="Novas Habilidades:").grid(column=5, row=3, padx=10, pady=5)
@@ -508,7 +625,7 @@ entry_status_novo.grid(column=6, row=6, padx=10, pady=5)
 
 ttk.Button(tab1, text="Atualizar Aluno", command=atualizar_aluno).grid(column=5, row=7, columnspan=2, pady=10)
 
-# Aba 11: Excluir Aluno
+#Excluir Aluno
 ttk.Label(tab1, text="Nome do Aluno:").grid(column=7, row=0, padx=10, pady=5)
 entry_excluir_aluno = ttk.Entry(tab1)
 entry_excluir_aluno.grid(column=8, row=0, padx=10, pady=5)
@@ -534,23 +651,71 @@ ttk.Button(tab1, text="Excluir Aluno", command=excluir_aluno).grid(column=7, row
 
 
 
-# Aba 3: Cadastrar Aula
-ttk.Label(tab3, text="Nome da Aula:").grid(column=0, row=0, padx=10, pady=5)
-entry_nome_aula = ttk.Entry(tab3)
+
+# Aba 2: Cadastrar Aula
+ttk.Label(tab2, text="Nome da Aula:").grid(column=0, row=0, padx=10, pady=5)
+entry_nome_aula = ttk.Entry(tab2)
 entry_nome_aula.grid(column=1, row=0, padx=10, pady=5)
 
-ttk.Label(tab3, text="Instrutor:").grid(column=0, row=1, padx=10, pady=5)
-entry_instrutor = ttk.Entry(tab3)
+ttk.Label(tab2, text="Instrutor:").grid(column=0, row=1, padx=10, pady=5)
+entry_instrutor = ttk.Entry(tab2)
 entry_instrutor.grid(column=1, row=1, padx=10, pady=5)
 
-ttk.Label(tab3, text="Número de Vagas:").grid(column=0, row=2, padx=10, pady=5)
-entry_vagas = ttk.Entry(tab3)
+ttk.Label(tab2, text="Número de Vagas:").grid(column=0, row=2, padx=10, pady=5)
+entry_vagas = ttk.Entry(tab2)
 entry_vagas.grid(column=1, row=2, padx=10, pady=5)
 
-ttk.Button(tab3, text="Cadastrar Aula", command=cadastrar_aula).grid(column=0, row=3, columnspan=2, pady=10)
+ttk.Button(tab2, text="Cadastrar Aula", command=cadastrar_aula).grid(column=0, row=3, columnspan=2, pady=10)
 
-# Aba 4: Consultar Aula
-ttk.Button(tab4, text="Consultar Aulas", command=consultar_aulas).grid(column=0, row=0, columnspan=2, pady=10)
+#Consultar Aula
+ttk.Button(tab2, text="Consultar Aulas", command=consultar_aulas).grid(column=3, row=0, columnspan=1, pady=10)
+
+#Atualizar Aula
+ttk.Label(tab2, text="Nome Original da Aula:").grid(column=4, row=0, padx=10, pady=5)
+entry_nome_aula_original = ttk.Entry(tab2)
+entry_nome_aula_original.grid(column=5, row=0, padx=10, pady=5)
+
+ttk.Label(tab2, text="Novo Nome da Aula:").grid(column=4, row=1, padx=10, pady=5)
+entry_nome_aula_novo = ttk.Entry(tab2)
+entry_nome_aula_novo.grid(column=5, row=1, padx=10, pady=5)
+
+ttk.Label(tab2, text="Instrutor:").grid(column=4, row=2, padx=10, pady=5)
+entry_instrutor_aula = ttk.Entry(tab2)
+entry_instrutor_aula.grid(column=5, row=2, padx=10, pady=5)
+
+ttk.Label(tab2, text="Número de Vagas:").grid(column=4, row=3, padx=10, pady=5)
+entry_vagas_aula = ttk.Entry(tab2)
+entry_vagas_aula.grid(column=5, row=3, padx=10, pady=5)
+
+ttk.Button(tab2, text="Atualizar Aula", command=atualizar_aula).grid(column=4, row=4, columnspan=2, pady=10)
+
+
+# Excluir Aula
+ttk.Label(tab2, text="Nome da Aula para Excluir:").grid(column=7, row=0, padx=10, pady=5)
+entry_nome_aula_excluir = ttk.Entry(tab2)
+entry_nome_aula_excluir.grid(column=8, row=0, padx=10, pady=5)
+
+ttk.Button(tab2, text="Excluir Aula", command=excluir_aula).grid(column=6, row=1, columnspan=2, pady=10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Aba 5: Matricular em Aula
 ttk.Label(tab5, text="Nome do Aluno:").grid(column=0, row=0, padx=10, pady=5)
@@ -596,6 +761,36 @@ entry_objetivo_missao.grid(column=1, row=1, padx=10, pady=5)
 
 ttk.Button(tab8, text="Registrar em Missão").grid(column=0, row=2, columnspan=2, pady=10)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Aba 9: Criar Equipe
 ttk.Label(tab9, text="Nome da Equipe:").grid(column=0, row=0, padx=10, pady=5)
 entry_nome_equipe = ttk.Entry(tab9)
@@ -612,7 +807,7 @@ entry_instrutor_equipe.grid(column=1, row=2, padx=10, pady=5)
 ttk.Button(tab9, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3, columnspan=2, pady=10)
 
 # Aba 10: Consultar Equipe
-ttk.Button(tab10, text="Consultar Equipes", command=consultar_equipes).grid(column=0, row=0, columnspan=2, pady=10)
+ttk.Button(tab9, text="Consultar Equipes", command=consultar_equipes).grid(column=2, row=0, columnspan=2, pady=10)
 
 
 
