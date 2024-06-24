@@ -126,21 +126,22 @@ As equipes que correspondem aos critérios de busca serão exibidos.
 
 3.3. Para atualizar a equipe siga os seguintes passos:
 
-Escolha a opção "Atualizarvequipe" no menu principal.
-Escolha a opção " NOME Orignal" no menu principal.
+Escolha a opção "Atualizar Equipe" no menu principal.
+Escolha a opção " Nome Orignal" no menu principal.
 Insira o nome da equipe.
 Insira o novo nome da equipe.
 Insira o nome do novo instrutor.  
 para atualizar insira o novo nome da equipe 
 Insira os nomes dos novos integrantes 
 
-Se os dados forem válidos, o aluno será atualizado com sucesso.
+Se os dados forem válidos, a equipe será atualizada com sucesso.
 
-3.4. Para Excluir os alunos, siga os seguintes passos:
+3.4. Para Excluir a equipe, siga os seguintes passos:
 
-Escolha a opção "Excluir Aluno" no menu principal.
+Escolha a opção "Excluir Equipe" no menu principal.
 Escolha a opção " NOME" no menu principal.
-Se o aluno estiver cadastrado corretamente ele sera excluido.
+Digite o nome da equipe que deseja excluir.
+Se a equipe estiver cadastrada corretamente ele sera excluida.
 
 
 4. Matricular aluno em aula
