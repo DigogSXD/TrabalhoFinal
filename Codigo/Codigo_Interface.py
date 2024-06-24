@@ -783,9 +783,7 @@ entry_instrutor_aula.grid(column=5, row=2, padx=10, pady=5)
 ttk.Label(tab2, text="Número de Vagas:").grid(column=4, row=3, padx=10, pady=5)
 entry_vagas_aula = ttk.Entry(tab2)
 entry_vagas_aula.grid(column=5, row=3, padx=10, pady=5)
-
 ttk.Button(tab2, text="Atualizar Aula", command=atualizar_aula).grid(column=4, row=4, columnspan=2, pady=10)
-
 
 # Excluir Aula
 ttk.Label(tab2, text="Nome da Aula para Excluir:").grid(column=7, row=0, padx=10, pady=5)
@@ -824,6 +822,18 @@ entry_nome_aula_aluno = ttk.Entry(tab5)
 entry_nome_aula_aluno.grid(column=1, row=1, padx=10, pady=5)
 
 ttk.Button(tab5, text="Matricular em Aula").grid(column=0, row=2, columnspan=2, pady=10)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Aba 6: Cadastrar Missão
 ttk.Label(tab6, text="Objetivo:").grid(column=0, row=0, padx=10, pady=5)
