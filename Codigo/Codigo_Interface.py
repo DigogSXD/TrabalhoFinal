@@ -190,8 +190,6 @@ class Sistema:
     def cadastrar_missao(self, missao):
         self.missoes.append(missao)
     
-    def consultar_missoes(self):
-        return self.missoes
 
     def criar_equipe(self, nome, membros, instrutor):
         equipe = {'nome': nome, 'membros': membros, 'instrutor': instrutor}
@@ -380,6 +378,112 @@ class Sistema:
         conn.close()
         print(f"Equipe {nome_equipe} excluída do banco de dados.")
 
+    # Método para atualizar uma missão
+    def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
+        missao_encontrada = None
+
+        for missao in self.missoes:
+            if missao['id'] == id_missao:
+                missao_encontrada = missao
+                break
+
+        if not missao_encontrada:
+            print(f"Missão com ID {id_missao} não encontrada.")
+            return
+
+        if novo_objetivo:
+            missao_encontrada['objetivo'] = novo_objetivo
+        if nova_equipe:
+            missao_encontrada['equipe_designada'] = nova_equipe
+        if nova_data_inicio:
+            missao_encontrada['data_inicio'] = nova_data_inicio
+        if nova_data_termino:
+            missao_encontrada['data_termino'] = nova_data_termino
+        if novo_status:
+            missao_encontrada['status'] = novo_status
+
+        # Atualiza a missão no banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        UPDATE Missao SET
+            objetivo = %s,
+            equipe_designada = %s,
+            data_inicio = %s,
+            data_termino = %s,
+            status = %s
+        WHERE id = %s
+        """, (
+            novo_objetivo or missao_encontrada['objetivo'],
+            nova_equipe or missao_encontrada['equipe_designada'],
+            nova_data_inicio or missao_encontrada['data_inicio'],
+            nova_data_termino or missao_encontrada['data_termino'],
+            novo_status or missao_encontrada['status'],
+            id_missao
+        ))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Missão com ID {id_missao} atualizada com sucesso.")
+
+
+    # Método para excluir uma missão
+    def excluir_missao(self, id_missao):
+        # Verifica se a missão está na lista e a remove
+        for missao in self.missoes:
+            if missao['id'] == id_missao:
+                self.missoes.remove(missao)
+                break
+        else:
+            print(f"Missão com ID {id_missao} não encontrada na lista.")
+            return
+        
+        # Remove a missão do banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Missão com ID {id_missao} excluída do banco de dados.")
+
+
+
+    # Método para criar uma nova missão
+    def criar_missao(self, objetivo, equipe_designada, data_inicio, data_termino, status='Pendente'):
+        missao = {
+            'objetivo': objetivo,
+            'equipe_designada': equipe_designada,
+            'data_inicio': data_inicio,
+            'data_termino': data_termino,
+            'status': status
+        }
+        self.missoes.append(missao)
+
+        # Adiciona a missão ao banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("""
+        INSERT INTO Missao (objetivo, equipe_designada, data_inicio, data_termino, status)
+        VALUES (%s, %s, %s, %s, %s)
+        """, (objetivo, equipe_designada, data_inicio, data_termino, status))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Missão '{objetivo}' criada com sucesso.")
+
+
+    # Método para consultar missões
+    def consultar_missoes(self):
+        conn = conectar_bd()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Missao")
+        missoes = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return missoes
 
 
 
@@ -591,10 +695,53 @@ def excluir_equipe():
     else:
         messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
 
+# Função para atualizar missão na interface gráfica
+def atualizar_missao():
+    id_missao = entry_id_missao.get()
+    novo_objetivo = entry_novo_objetivo.get()
+    nova_equipe = entry_nova_equipe.get()
+    nova_data_inicio = entry_nova_data_inicio.get()
+    nova_data_termino = entry_nova_data_termino.get()
+    novo_status = entry_novo_status.get()
 
+    if id_missao:
+        sistema.atualizar_missao(id_missao, novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status)
+        messagebox.showinfo("Sucesso", f"Missão com ID {id_missao} atualizada com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o ID da missão.")
 
+# Função para excluir missão na interface gráfica
+def excluir_missao():
+    id_missao = entry_id_missao_excluir.get()
+    if id_missao:
+        sistema.excluir_missao(id_missao)
+        messagebox.showinfo("Sucesso", f"Missão com ID {id_missao} excluída com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o ID da missão.")
 
+# Função para criar missão na interface gráfica
+def criar_missao():
+    objetivo = entry_objetivo.get()
+    equipe_designada = entry_equipe_designada.get()
+    data_inicio = entry_data_inicio.get()
+    data_termino = entry_data_termino.get()
+    status = entry_status.get()
 
+    if objetivo and equipe_designada and data_inicio and data_termino:
+        sistema.criar_missao(objetivo, equipe_designada, data_inicio, data_termino, status or 'Pendente')
+        messagebox.showinfo("Sucesso", f"Missão '{objetivo}' criada com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, preencha todos os campos obrigatórios.")
+
+# Função para consultar missões na interface gráfica
+def consultar_missoes():
+    missoes = sistema.consultar_missoes()
+    result_window = tk.Toplevel(root)
+    result_window.title("Missões")
+    
+    for i, missao in enumerate(missoes):
+        missao_info = f"ID: {missao['id']}, Objetivo: {missao['objetivo']}, Equipe Designada: {missao['equipe_designada']}, Data Início: {missao['data_inicio']}, Data Término: {missao['data_termino']}, Status: {missao['status']}"
+        ttk.Label(result_window, text=missao_info).grid(column=0, row=i, padx=10, pady=5)
 
 
 
@@ -618,9 +765,8 @@ tabControl = ttk.Notebook(root)
 tab1 = ttk.Frame(tabControl, style='My.TFrame')
 tab2 = ttk.Frame(tabControl, style='My.TFrame')
 tab3 = ttk.Frame(tabControl, style='My.TFrame')
-tab5 = ttk.Frame(tabControl, style='My.TFrame')
 tab6 = ttk.Frame(tabControl, style='My.TFrame')
-tab7 = ttk.Frame(tabControl, style='My.TFrame')
+tab5 = ttk.Frame(tabControl, style='My.TFrame')
 tab8 = ttk.Frame(tabControl, style='My.TFrame')
 
 
@@ -631,9 +777,8 @@ tab8 = ttk.Frame(tabControl, style='My.TFrame')
 tabControl.add(tab1, text='CRUD Aluno')
 tabControl.add(tab2, text='CRUD Aula')
 tabControl.add(tab3, text='CRUD Equipe')
+tabControl.add(tab6, text='CRUD Missão')
 tabControl.add(tab5, text='Matricular em Aula')
-tabControl.add(tab6, text='Cadastrar Missão')
-tabControl.add(tab7, text='Consultar Missão')
 tabControl.add(tab8, text='Registrar em Missão')
 
 
@@ -835,7 +980,8 @@ ttk.Button(tab5, text="Matricular em Aula").grid(column=0, row=2, columnspan=2, 
 
 
 
-# Aba 6: Cadastrar Missão
+
+# Criar Missão
 ttk.Label(tab6, text="Objetivo:").grid(column=0, row=0, padx=10, pady=5)
 entry_objetivo = ttk.Entry(tab6)
 entry_objetivo.grid(column=1, row=0, padx=10, pady=5)
@@ -844,18 +990,87 @@ ttk.Label(tab6, text="Equipe Designada:").grid(column=0, row=1, padx=10, pady=5)
 entry_equipe_designada = ttk.Entry(tab6)
 entry_equipe_designada.grid(column=1, row=1, padx=10, pady=5)
 
-ttk.Label(tab6, text="Data de Início (AAAA-MM-DD):").grid(column=0, row=2, padx=10, pady=5)
+ttk.Label(tab6, text="Data de Início (YYYY-MM-DD):").grid(column=0, row=2, padx=10, pady=5)
 entry_data_inicio = ttk.Entry(tab6)
 entry_data_inicio.grid(column=1, row=2, padx=10, pady=5)
 
-ttk.Label(tab6, text="Data de Término (AAAA-MM-DD):").grid(column=0, row=3, padx=10, pady=5)
+ttk.Label(tab6, text="Data de Término (YYYY-MM-DD):").grid(column=0, row=3, padx=10, pady=5)
 entry_data_termino = ttk.Entry(tab6)
 entry_data_termino.grid(column=1, row=3, padx=10, pady=5)
 
-ttk.Button(tab6, text="Cadastrar Missão", command=cadastrar_missao).grid(column=0, row=4, columnspan=2, pady=10)
+ttk.Label(tab6, text="Status:").grid(column=0, row=4, padx=10, pady=5)
+entry_status = ttk.Entry(tab6)
+entry_status.grid(column=1, row=4, padx=10, pady=5)
 
-# Aba 7: Consultar Missão
-ttk.Button(tab7, text="Consultar Missões", command=consultar_missoes).grid(column=0, row=0, columnspan=2, pady=10)
+ttk.Button(tab6, text="Criar Missão", command=criar_missao).grid(column=0, row=5, columnspan=2, pady=10)
+
+
+#Consultar Missão
+ttk.Button(tab6, text="Consultar Missões", command=consultar_missoes).grid(column=2, row=6, columnspan=2, pady=10)
+
+
+
+
+
+# Atualizar Missão
+ttk.Label(tab6, text="ID da Missão:").grid(column=4, row=0, padx=10, pady=5)
+entry_id_missao = ttk.Entry(tab6)
+entry_id_missao.grid(column=5, row=0, padx=10, pady=5)
+
+ttk.Label(tab6, text="Novo Objetivo:").grid(column=4, row=1, padx=10, pady=5)
+entry_novo_objetivo = ttk.Entry(tab6)
+entry_novo_objetivo.grid(column=5, row=1, padx=10, pady=5)
+
+ttk.Label(tab6, text="Nova Equipe:").grid(column=4, row=2, padx=10, pady=5)
+entry_nova_equipe = ttk.Entry(tab6)
+entry_nova_equipe.grid(column=5, row=2, padx=10, pady=5)
+
+ttk.Label(tab6, text="Nova Data de Início (YYYY-MM-DD):").grid(column=4, row=3, padx=10, pady=5)
+entry_nova_data_inicio = ttk.Entry(tab6)
+entry_nova_data_inicio.grid(column=5, row=3, padx=10, pady=5)
+
+ttk.Label(tab6, text="Nova Data de Término (YYYY-MM-DD):").grid(column=4, row=4, padx=10, pady=5)
+entry_nova_data_termino = ttk.Entry(tab6)
+entry_nova_data_termino.grid(column=5, row=4, padx=10, pady=5)
+
+ttk.Label(tab6, text="Novo Status:").grid(column=4, row=5, padx=10, pady=5)
+entry_novo_status = ttk.Entry(tab6)
+entry_novo_status.grid(column=5, row=5, padx=10, pady=5)
+
+ttk.Button(tab6, text="Atualizar Missão", command=atualizar_missao).grid(column=4, row=6, columnspan=2, pady=10)
+
+
+
+# Excluir Missão
+ttk.Label(tab6, text="ID da Missão para Excluir:").grid(column=6, row=0, padx=10, pady=5)
+entry_id_missao_excluir = ttk.Entry(tab6)
+entry_id_missao_excluir.grid(column=7, row=0, padx=10, pady=5)
+
+ttk.Button(tab6, text="Excluir Missão", command=excluir_missao).grid(column=6, row=12, columnspan=2, pady=10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Aba 8: Registrar em Missão
 ttk.Label(tab8, text="Nome do Aluno:").grid(column=0, row=0, padx=10, pady=5)
@@ -867,7 +1082,6 @@ entry_objetivo_missao = ttk.Entry(tab8)
 entry_objetivo_missao.grid(column=1, row=1, padx=10, pady=5)
 
 ttk.Button(tab8, text="Registrar em Missão").grid(column=0, row=2, columnspan=2, pady=10)
-
 
 
 
