@@ -4,25 +4,6 @@ import mysql.connector
 from mysql.connector import errorcode
 
 # Função para conectar ao banco de dados e criar o banco de dados se não existir.
-def criar_db():
-    try:
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="12345678"
-        )
-        cursor = conn.cursor()
-        cursor.execute("CREATE DATABASE IF NOT EXISTS xman")
-        print("Banco de dados criado ou já existe")
-        cursor.close()
-        conn.close()
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Verifique o usuário ou a senha")
-        else:
-            print(err)
-
-# Função para conectar ao banco de dados xman
 def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
@@ -31,44 +12,94 @@ def conectar_bd():
         database="xman"
     )
 
+def criar_db():
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="12345678"
+    )
+    cursor = conn.cursor()
+    cursor.execute("CREATE DATABASE IF NOT EXISTS xman")
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 def criar_tabelas():
     criar_db()
     conn = conectar_bd()
     cursor = conn.cursor()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS Aluno (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        nome VARCHAR(255),
-        idade INT,
-        habilidades TEXT,
-        nivel_poder VARCHAR(255),
-        equipe VARCHAR(255),
-        status_matricula VARCHAR(255)
-    )
+        CREATE TABLE IF NOT EXISTS Aluno (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(255),
+            idade INT,
+            habilidades TEXT,
+            nivel_poder VARCHAR(255),
+            equipe VARCHAR(255),
+            status_matricula VARCHAR(255)
+        )
     """)
 
-    
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS Aula (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        nome VARCHAR(255),
-        instrutor VARCHAR(255),
-        vagas INT
-    )
+        CREATE TABLE IF NOT EXISTS Aula (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(255),
+            instrutor VARCHAR(255),
+            vagas INT
+        )
     """)
-    
+
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS Missao (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        objetivo VARCHAR(255),
-        equipe_designada VARCHAR(255),
-        data_inicio DATE,
-        data_termino DATE,
-        status VARCHAR(255)
-    )
+        CREATE TABLE IF NOT EXISTS Missao (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            objetivo VARCHAR(255),
+            equipe_designada VARCHAR(255),
+            data_inicio DATE,
+            data_termino DATE,
+            status VARCHAR(255)
+        )
     """)
-    
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Matricula (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            aluno_id INT,
+            aula_id INT,
+            FOREIGN KEY (aluno_id) REFERENCES Aluno(id),
+            FOREIGN KEY (aula_id) REFERENCES Aula(id)
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS HistoricoParticipacao (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            aluno_id INT,
+            aula_id INT,
+            data DATE,
+            FOREIGN KEY (aluno_id) REFERENCES Aluno(id),
+            FOREIGN KEY (aula_id) REFERENCES Aula(id)
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Equipe (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(255),
+            instrutor VARCHAR(255)
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Membros_Equipe (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            equipe_id INT,
+            membro_id INT,
+            FOREIGN KEY (equipe_id) REFERENCES Equipe(id),
+            FOREIGN KEY (membro_id) REFERENCES Aluno(id)
+        )
+    """)
+
     conn.commit()
     cursor.close()
     conn.close()
