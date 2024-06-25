@@ -378,33 +378,26 @@ class Sistema:
         conn.close()
         print(f"Equipe {nome_equipe} excluída do banco de dados.")
 
-    # Método para atualizar uma missão
     def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
-        missao_encontrada = None
+        conn = conectar_bd()
+        cursor = conn.cursor(dictionary=True)
 
-        for missao in self.missoes:
-            if missao['id'] == id_missao:
-                missao_encontrada = missao
-                break
+        # Verificar se a missão existe
+        cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
+        missao_encontrada = cursor.fetchone()
 
         if not missao_encontrada:
             print(f"Missão com ID {id_missao} não encontrada.")
+            cursor.close()
+            conn.close()
             return
 
-        if novo_objetivo:
-            missao_encontrada['objetivo'] = novo_objetivo
-        if nova_equipe:
-            missao_encontrada['equipe_designada'] = nova_equipe
-        if nova_data_inicio:
-            missao_encontrada['data_inicio'] = nova_data_inicio
-        if nova_data_termino:
-            missao_encontrada['data_termino'] = nova_data_termino
-        if novo_status:
-            missao_encontrada['status'] = novo_status
-
-        # Atualiza a missão no banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
+        # Atualizar os valores conforme necessário
+        novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
+        nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
+        nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
+        nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
+        novo_status = novo_status or missao_encontrada['status']
 
         cursor.execute("""
         UPDATE Missao SET
@@ -414,19 +407,13 @@ class Sistema:
             data_termino = %s,
             status = %s
         WHERE id = %s
-        """, (
-            novo_objetivo or missao_encontrada['objetivo'],
-            nova_equipe or missao_encontrada['equipe_designada'],
-            nova_data_inicio or missao_encontrada['data_inicio'],
-            nova_data_termino or missao_encontrada['data_termino'],
-            novo_status or missao_encontrada['status'],
-            id_missao
-        ))
+        """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
 
         conn.commit()
         cursor.close()
         conn.close()
         print(f"Missão com ID {id_missao} atualizada com sucesso.")
+
 
 
     # Método para excluir uma missão
@@ -696,7 +683,7 @@ def excluir_equipe():
         messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
 
 # Função para atualizar missão na interface gráfica
-def atualizar_missao():
+def atualizar_missao_interface():
     id_missao = entry_id_missao.get()
     novo_objetivo = entry_novo_objetivo.get()
     nova_equipe = entry_nova_equipe.get()
@@ -1037,7 +1024,8 @@ ttk.Label(tab6, text="Novo Status:").grid(column=4, row=5, padx=10, pady=5)
 entry_novo_status = ttk.Entry(tab6)
 entry_novo_status.grid(column=5, row=5, padx=10, pady=5)
 
-ttk.Button(tab6, text="Atualizar Missão", command=atualizar_missao).grid(column=4, row=6, columnspan=2, pady=10)
+ttk.Button(tab6, text="Atualizar Missão", command=atualizar_missao_interface).grid(column=4, row=6, columnspan=2, pady=10)
+
 
 
 
