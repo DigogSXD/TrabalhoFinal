@@ -283,476 +283,476 @@ class Equipe:
 
 
 
-class Sistema:
-    def __init__(self):
-        self.alunos = []
-        self.aulas = []
-        self.missoes = []
-        self.equipes = []
-        self.carregar_dados()
+    class Sistema:
+        def __init__(self):
+            self.alunos = []
+            self.aulas = []
+            self.missoes = []
+            self.equipes = []
+            self.carregar_dados()
 
-    def carregar_dados(self):
-        self.carregar_missoes()
-        self.carregar_alunos()
-        self.carregar_aulas()
-        self.carregar_equipes()
+        def carregar_dados(self):
+            self.carregar_missoes()
+            self.carregar_alunos()
+            self.carregar_aulas()
+            self.carregar_equipes()
 
 
-    def carregar_alunos(self):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Aluno")
-        alunos = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        for aluno in alunos:
-            self.alunos.append(aluno)
+        def carregar_alunos(self):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM Aluno")
+            alunos = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            for aluno in alunos:
+                self.alunos.append(aluno)
 
-    def carregar_aulas(self):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Aula")
-        aulas = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        for aula in aulas:
+        def carregar_aulas(self):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM Aula")
+            aulas = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            for aula in aulas:
+                self.aulas.append(aula)
+
+
+        def carregar_missoes(self):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM Missao")
+            missoes = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            for missao in missoes:
+                self.missoes.append(missao)
+        
+        def carregar_equipes(self):
+            equipes = Equipe.carregar_bd()
+            for equipe in equipes:
+                self.equipes.append(equipe)
+
+
+
+
+
+        def cadastrar_aluno(self, aluno):
+            if aluno.validar():
+                aluno.salvar_bd()
+                self.alunos.append(aluno)
+                print(f"Aluno '{aluno.nome}' cadastrado com sucesso.")
+            else:
+                print("Dados do aluno são inválidos.")
+
+
+        
+        def buscar_alunos(self, nome=None, habilidades=None, equipe=None, status_matricula=None):
+            return Aluno.buscar_bd(nome, habilidades, equipe, status_matricula)
+        
+        def cadastrar_aula(self, aula):
+            aula.salvar_bd()
             self.aulas.append(aula)
+            print(f"Aula '{aula.nome}' cadastrada com sucesso.")
+        
+        def consultar_aulas(self):
+            return self.aulas
 
-
-    def carregar_missoes(self):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Missao")
-        missoes = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        for missao in missoes:
+        def cadastrar_missao(self, missao):
+            missao.salvar_bd()
             self.missoes.append(missao)
-    
-    def carregar_equipes(self):
-        equipes = Equipe.carregar_bd()
-        for equipe in equipes:
+            print(f"Missão '{missao.objetivo}' cadastrada com sucesso.")
+        
+
+        def criar_equipe(self, nome, membros, instrutor):
+            equipe = Equipe(nome, instrutor, membros)
+            equipe.salvar_bd()
             self.equipes.append(equipe)
-
-
-
-
-
-    def cadastrar_aluno(self, aluno):
-        if aluno.validar():
-            aluno.salvar_bd()
-            self.alunos.append(aluno)
-            print(f"Aluno '{aluno.nome}' cadastrado com sucesso.")
-        else:
-            print("Dados do aluno são inválidos.")
-
-
-    
-    def buscar_alunos(self, nome=None, habilidades=None, equipe=None, status_matricula=None):
-        return Aluno.buscar_bd(nome, habilidades, equipe, status_matricula)
-    
-    def cadastrar_aula(self, aula):
-        aula.salvar_bd()
-        self.aulas.append(aula)
-        print(f"Aula '{aula.nome}' cadastrada com sucesso.")
-    
-    def consultar_aulas(self):
-        return self.aulas
-
-    def cadastrar_missao(self, missao):
-        missao.salvar_bd()
-        self.missoes.append(missao)
-        print(f"Missão '{missao.objetivo}' cadastrada com sucesso.")
-    
-
-    def criar_equipe(self, nome, membros, instrutor):
-        equipe = Equipe(nome, instrutor, membros)
-        equipe.salvar_bd()
-        self.equipes.append(equipe)
-        print(f"Equipe '{nome}' criada com sucesso.")
-    
-    def consultar_equipes(self):
-        return self.equipes
-    
-
-    #EXCLUIR
-    def excluir_aluno(self, nome_aluno):
-        # Verifica se o aluno está na lista e o remove
-        for aluno in self.alunos:
-            if aluno.nome == nome_aluno:
-                self.alunos.remove(aluno)
-                break
-        else:
-            print(f"Aluno {nome_aluno} não encontrado na lista.")
-            return
+            print(f"Equipe '{nome}' criada com sucesso.")
         
-        # Remove o aluno do banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Aluno WHERE nome = %s", (nome_aluno,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Aluno {nome_aluno} excluído do banco de dados.")
-
-
-
-    #UPDATE
-    def atualizar_aluno(self, nome_original, nome_novo=None, idade=None, habilidades=None, nivel_poder=None, equipe=None, status_matricula=None):
-        aluno_encontrado = None
-
-        for aluno in self.alunos:
-            if aluno.nome == nome_original:
-                aluno_encontrado = aluno
-                break
-        else:
-            print(f"Aluno {nome_original} não encontrado na lista.")
-            return
+        def consultar_equipes(self):
+            return self.equipes
         
-        # Atualizar dados na lista de alunos
-        if nome_novo:
-            aluno_encontrado.nome = nome_novo
-        if idade:
-            aluno_encontrado.idade = idade
-        if habilidades:
-            aluno_encontrado.habilidades = habilidades
-        if nivel_poder:
-            aluno_encontrado.nivel_poder = nivel_poder
-        if equipe:
-            aluno_encontrado.equipe = equipe
-        if status_matricula:
-            aluno_encontrado.status_matricula = status_matricula
 
-        # Atualizar dados no banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("""
-            UPDATE Aluno SET nome=%s, idade=%s, habilidades=%s, nivel_poder=%s, equipe=%s, status_matricula=%s
-            WHERE nome=%s
-        """, (nome_novo or aluno_encontrado.nome, idade or aluno_encontrado.idade, ','.join(habilidades) if habilidades else ','.join(aluno_encontrado.habilidades), nivel_poder or aluno_encontrado.nivel_poder, equipe or aluno_encontrado.equipe, status_matricula or aluno_encontrado.status_matricula, nome_original))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Aluno {nome_original} atualizado com sucesso.") 
-
-
-    def atualizar_aula(self, nome_original, nome_novo=None, instrutor=None, vagas=None):
-        aula_encontrada = None
-
-        for aula in self.aulas:
-            if aula.nome == nome_original:
-                aula_encontrada = aula
-                break
-        else:
-            print(f"Aula {nome_original} não encontrada na lista.")
-            return
-
-        # Atualizar dados na lista de aulas
-        if nome_novo:
-            aula_encontrada.nome = nome_novo
-        if instrutor:
-            aula_encontrada.instrutor = instrutor
-        if vagas:
-            aula_encontrada.vagas = vagas
-
-        # Atualizar dados no banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("""
-            UPDATE Aula SET nome=%s, instrutor=%s, vagas=%s
-            WHERE nome=%s
-        """, (nome_novo or aula_encontrada.nome, instrutor or aula_encontrada.instrutor, vagas or aula_encontrada.vagas, nome_original))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Aula {nome_original} atualizada com sucesso.")
+        #EXCLUIR
+        def excluir_aluno(self, nome_aluno):
+            # Verifica se o aluno está na lista e o remove
+            for aluno in self.alunos:
+                if aluno.nome == nome_aluno:
+                    self.alunos.remove(aluno)
+                    break
+            else:
+                print(f"Aluno {nome_aluno} não encontrado na lista.")
+                return
+            
+            # Remove o aluno do banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Aluno WHERE nome = %s", (nome_aluno,))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Aluno {nome_aluno} excluído do banco de dados.")
 
 
 
-    # Método para excluir uma aula
-    def excluir_aula(self, nome_aula):
-        # Verifica se a aula está na lista e a remove
-        for aula in self.aulas:
-            if aula.nome == nome_aula:
-                self.aulas.remove(aula)
-                break
-        else:
-            print(f"Aula {nome_aula} não encontrada na lista.")
-            return
-        
-        # Remove a aula do banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Aula WHERE nome = %s", (nome_aula,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Aula {nome_aula} excluída do banco de dados.")
+        #UPDATE
+        def atualizar_aluno(self, nome_original, nome_novo=None, idade=None, habilidades=None, nivel_poder=None, equipe=None, status_matricula=None):
+            aluno_encontrado = None
+
+            for aluno in self.alunos:
+                if aluno.nome == nome_original:
+                    aluno_encontrado = aluno
+                    break
+            else:
+                print(f"Aluno {nome_original} não encontrado na lista.")
+                return
+            
+            # Atualizar dados na lista de alunos
+            if nome_novo:
+                aluno_encontrado.nome = nome_novo
+            if idade:
+                aluno_encontrado.idade = idade
+            if habilidades:
+                aluno_encontrado.habilidades = habilidades
+            if nivel_poder:
+                aluno_encontrado.nivel_poder = nivel_poder
+            if equipe:
+                aluno_encontrado.equipe = equipe
+            if status_matricula:
+                aluno_encontrado.status_matricula = status_matricula
+
+            # Atualizar dados no banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Aluno SET nome=%s, idade=%s, habilidades=%s, nivel_poder=%s, equipe=%s, status_matricula=%s
+                WHERE nome=%s
+            """, (nome_novo or aluno_encontrado.nome, idade or aluno_encontrado.idade, ','.join(habilidades) if habilidades else ','.join(aluno_encontrado.habilidades), nivel_poder or aluno_encontrado.nivel_poder, equipe or aluno_encontrado.equipe, status_matricula or aluno_encontrado.status_matricula, nome_original))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Aluno {nome_original} atualizado com sucesso.") 
 
 
-    # Método para atualizar uma equipe
-    def atualizar_equipe(self, nome_equipe, novo_nome=None, novos_membros=None, novo_instrutor=None):
-        equipe_encontrada = None
+        def atualizar_aula(self, nome_original, nome_novo=None, instrutor=None, vagas=None):
+            aula_encontrada = None
 
-        for equipe in self.equipes:
-            if equipe['nome'] == nome_equipe:
-                equipe_encontrada = equipe
-                break
+            for aula in self.aulas:
+                if aula.nome == nome_original:
+                    aula_encontrada = aula
+                    break
+            else:
+                print(f"Aula {nome_original} não encontrada na lista.")
+                return
 
-        if not equipe_encontrada:
-            print(f"Equipe {nome_equipe} não encontrada.")
-            return
+            # Atualizar dados na lista de aulas
+            if nome_novo:
+                aula_encontrada.nome = nome_novo
+            if instrutor:
+                aula_encontrada.instrutor = instrutor
+            if vagas:
+                aula_encontrada.vagas = vagas
 
-        if novo_nome:
-            equipe_encontrada['nome'] = novo_nome
-        if novos_membros:
-            equipe_encontrada['membros'] = novos_membros
-        if novo_instrutor:
-            equipe_encontrada['instrutor'] = novo_instrutor
+            # Atualizar dados no banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE Aula SET nome=%s, instrutor=%s, vagas=%s
+                WHERE nome=%s
+            """, (nome_novo or aula_encontrada.nome, instrutor or aula_encontrada.instrutor, vagas or aula_encontrada.vagas, nome_original))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Aula {nome_original} atualizada com sucesso.")
 
-        # Atualiza a equipe no banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
 
-        if novo_nome:
-            cursor.execute("UPDATE Equipe SET nome = %s WHERE nome = %s", (novo_nome, nome_equipe))
 
-        if novo_instrutor:
-            cursor.execute("UPDATE Equipe SET instrutor = %s WHERE nome = %s", (novo_instrutor, novo_nome or nome_equipe))
+        # Método para excluir uma aula
+        def excluir_aula(self, nome_aula):
+            # Verifica se a aula está na lista e a remove
+            for aula in self.aulas:
+                if aula.nome == nome_aula:
+                    self.aulas.remove(aula)
+                    break
+            else:
+                print(f"Aula {nome_aula} não encontrada na lista.")
+                return
+            
+            # Remove a aula do banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Aula WHERE nome = %s", (nome_aula,))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Aula {nome_aula} excluída do banco de dados.")
 
-        if novos_membros:
+
+        # Método para atualizar uma equipe
+        def atualizar_equipe(self, nome_equipe, novo_nome=None, novos_membros=None, novo_instrutor=None):
+            equipe_encontrada = None
+
+            for equipe in self.equipes:
+                if equipe['nome'] == nome_equipe:
+                    equipe_encontrada = equipe
+                    break
+
+            if not equipe_encontrada:
+                print(f"Equipe {nome_equipe} não encontrada.")
+                return
+
+            if novo_nome:
+                equipe_encontrada['nome'] = novo_nome
+            if novos_membros:
+                equipe_encontrada['membros'] = novos_membros
+            if novo_instrutor:
+                equipe_encontrada['instrutor'] = novo_instrutor
+
+            # Atualiza a equipe no banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+
+            if novo_nome:
+                cursor.execute("UPDATE Equipe SET nome = %s WHERE nome = %s", (novo_nome, nome_equipe))
+
+            if novo_instrutor:
+                cursor.execute("UPDATE Equipe SET instrutor = %s WHERE nome = %s", (novo_instrutor, novo_nome or nome_equipe))
+
+            if novos_membros:
+                cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
+                for membro in novos_membros:
+                    cursor.execute("INSERT INTO Membros_Equipe (equipe_nome, membro_nome) VALUES (%s, %s)", (novo_nome or nome_equipe, membro.nome))
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Equipe {nome_equipe} atualizada com sucesso.")
+
+
+        # Método para excluir uma equipe
+        def excluir_equipe(self, nome_equipe):
+            # Verifica se a equipe está na lista e a remove
+            for equipe in self.equipes:
+                if equipe['nome'] == nome_equipe:
+                    self.equipes.remove(equipe)
+                    break
+            else:
+                print(f"Equipe {nome_equipe} não encontrada na lista.")
+                return
+            
+            # Remove a equipe e seus membros do banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
             cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
-            for membro in novos_membros:
-                cursor.execute("INSERT INTO Membros_Equipe (equipe_nome, membro_nome) VALUES (%s, %s)", (novo_nome or nome_equipe, membro.nome))
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Equipe {nome_equipe} atualizada com sucesso.")
-
-
-    # Método para excluir uma equipe
-    def excluir_equipe(self, nome_equipe):
-        # Verifica se a equipe está na lista e a remove
-        for equipe in self.equipes:
-            if equipe['nome'] == nome_equipe:
-                self.equipes.remove(equipe)
-                break
-        else:
-            print(f"Equipe {nome_equipe} não encontrada na lista.")
-            return
-        
-        # Remove a equipe e seus membros do banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
-        cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome_equipe,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Equipe {nome_equipe} excluída do banco de dados.")
-
-    def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-
-        # Verificar se a missão existe
-        cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
-        missao_encontrada = cursor.fetchone()
-
-        if not missao_encontrada:
-            print(f"Missão com ID {id_missao} não encontrada.")
+            cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome_equipe,))
+            conn.commit()
             cursor.close()
             conn.close()
-            return
+            print(f"Equipe {nome_equipe} excluída do banco de dados.")
 
-        # Atualizar os valores conforme necessário
-        novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
-        nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
-        nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
-        nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
-        novo_status = novo_status or missao_encontrada['status']
+        def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
 
-        cursor.execute("""
-        UPDATE Missao SET
-            objetivo = %s,
-            equipe_designada = %s,
-            data_inicio = %s,
-            data_termino = %s,
-            status = %s
-        WHERE id = %s
-        """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
+            # Verificar se a missão existe
+            cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
+            missao_encontrada = cursor.fetchone()
 
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Missão com ID {id_missao} atualizada com sucesso.")
+            if not missao_encontrada:
+                print(f"Missão com ID {id_missao} não encontrada.")
+                cursor.close()
+                conn.close()
+                return
 
+            # Atualizar os valores conforme necessário
+            novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
+            nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
+            nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
+            nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
+            novo_status = novo_status or missao_encontrada['status']
 
+            cursor.execute("""
+            UPDATE Missao SET
+                objetivo = %s,
+                equipe_designada = %s,
+                data_inicio = %s,
+                data_termino = %s,
+                status = %s
+            WHERE id = %s
+            """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
 
-    def excluir_missao(self, id_missao):
-        # Verifica se a missão está na lista e a remove
-        missao_encontrada = None
-        for missao in self.missoes:
-            if missao['id'] == id_missao:
-                self.missoes.remove(missao)
-                missao_encontrada = missao
-                break
-        if not missao_encontrada:
-            print(f"Missão com ID {id_missao} não encontrada na lista.")
-            return
-        
-        # Remove a missão do banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Missão com ID {id_missao} excluída do banco de dados.")
-
-
-
-
-
-    # Método para criar uma nova missão
-    def criar_missao(self, objetivo, equipe_designada, data_inicio, data_termino, status='Pendente'):
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("""
-        INSERT INTO Missao (objetivo, equipe_designada, data_inicio, data_termino, status)
-        VALUES (%s, %s, %s, %s, %s)
-        """, (objetivo, equipe_designada, data_inicio, data_termino, status))
-        conn.commit()
-        
-        # Adiciona a missão à lista interna
-        cursor.execute("SELECT * FROM Missao WHERE id = LAST_INSERT_ID()")
-        nova_missao = cursor.fetchone()
-        self.missoes.append(nova_missao)
-        
-        cursor.close()
-        conn.close()
-        print(f"Missão '{objetivo}' criada com sucesso.")
-
-    def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-
-        # Verificar se a missão existe
-        cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
-        missao_encontrada = cursor.fetchone()
-
-        if not missao_encontrada:
-            print(f"Missão com ID {id_missao} não encontrada.")
+            conn.commit()
             cursor.close()
             conn.close()
-            return
-
-        # Atualizar os valores conforme necessário
-        novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
-        nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
-        nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
-        nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
-        novo_status = novo_status or missao_encontrada['status']
-
-        cursor.execute("""
-        UPDATE Missao SET
-            objetivo = %s,
-            equipe_designada = %s,
-            data_inicio = %s,
-            data_termino = %s,
-            status = %s
-        WHERE id = %s
-        """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
-        conn.commit()
-
-        # Atualizar a lista interna
-        for missao in self.missoes:
-            if missao['id'] == id_missao:
-                missao['objetivo'] = novo_objetivo
-                missao['equipe_designada'] = nova_equipe
-                missao['data_inicio'] = nova_data_inicio
-                missao['data_termino'] = nova_data_termino
-                missao['status'] = novo_status
-                break
-
-        cursor.close()
-        conn.close()
-        print(f"Missão com ID {id_missao} atualizada com sucesso.")
-
-    def excluir_missao(self, id_missao):
-        # Verifica se a missão está na lista e a remove
-        missao_encontrada = None
-        for missao in self.missoes:
-            if missao['id'] == id_missao:
-                self.missoes.remove(missao)
-                missao_encontrada = missao
-                break
-        if not missao_encontrada:
-            print(f"Missão com ID {id_missao} não encontrada na lista.")
-            return
-        
-        # Remove a missão do banco de dados
-        conn = conectar_bd()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Missão com ID {id_missao} excluída do banco de dados.")
+            print(f"Missão com ID {id_missao} atualizada com sucesso.")
 
 
-    def consultar_missoes(self):
-        conn = conectar_bd()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Missao")
-        missoes = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return missoes
 
-    def matricular_em_aula(self, nome_aluno, nome_aula):
-        aluno = None
-        aula = None
-
-        for a in self.alunos:
-            if a['nome'] == nome_aluno:
-                aluno = a
-                break
-        for a in self.aulas:
-            if a['nome'] == nome_aula:
-                aula = a
-                break
-
-        if not aluno or not aula:
-            print("Aluno ou aula não encontrados.")
-            return
-
-        conn = conectar_bd()
-        cursor = conn.cursor()
-
-        # Verificar disponibilidade de vagas
-        cursor.execute("SELECT COUNT(*) FROM Matricula WHERE aula_id = %s", (aula['id'],))
-        matriculas_atuais = cursor.fetchone()[0]
-        if matriculas_atuais >= aula['vagas']:
-            print("Aula cheia.")
+        def excluir_missao(self, id_missao):
+            # Verifica se a missão está na lista e a remove
+            missao_encontrada = None
+            for missao in self.missoes:
+                if missao['id'] == id_missao:
+                    self.missoes.remove(missao)
+                    missao_encontrada = missao
+                    break
+            if not missao_encontrada:
+                print(f"Missão com ID {id_missao} não encontrada na lista.")
+                return
+            
+            # Remove a missão do banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
+            conn.commit()
             cursor.close()
             conn.close()
-            return
+            print(f"Missão com ID {id_missao} excluída do banco de dados.")
 
-        # Registrar matrícula
-        cursor.execute("INSERT INTO Matricula (aluno_id, aula_id) VALUES (%s, %s)", (aluno['id'], aula['id']))
 
-        # Atualizar histórico de participação
-        cursor.execute("INSERT INTO HistoricoParticipacao (aluno_id, aula_id, data) VALUES (%s, %s, NOW())", (aluno['id'], aula['id']))
 
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"Aluno {nome_aluno} matriculado na aula {nome_aula}.")
 
-        # Atualizar disponibilidade de vagas
-        aula['vagas'] -= 1
+
+        # Método para criar uma nova missão
+        def criar_missao(self, objetivo, equipe_designada, data_inicio, data_termino, status='Pendente'):
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("""
+            INSERT INTO Missao (objetivo, equipe_designada, data_inicio, data_termino, status)
+            VALUES (%s, %s, %s, %s, %s)
+            """, (objetivo, equipe_designada, data_inicio, data_termino, status))
+            conn.commit()
+            
+            # Adiciona a missão à lista interna
+            cursor.execute("SELECT * FROM Missao WHERE id = LAST_INSERT_ID()")
+            nova_missao = cursor.fetchone()
+            self.missoes.append(nova_missao)
+            
+            cursor.close()
+            conn.close()
+            print(f"Missão '{objetivo}' criada com sucesso.")
+
+        def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
+
+            # Verificar se a missão existe
+            cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
+            missao_encontrada = cursor.fetchone()
+
+            if not missao_encontrada:
+                print(f"Missão com ID {id_missao} não encontrada.")
+                cursor.close()
+                conn.close()
+                return
+
+            # Atualizar os valores conforme necessário
+            novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
+            nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
+            nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
+            nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
+            novo_status = novo_status or missao_encontrada['status']
+
+            cursor.execute("""
+            UPDATE Missao SET
+                objetivo = %s,
+                equipe_designada = %s,
+                data_inicio = %s,
+                data_termino = %s,
+                status = %s
+            WHERE id = %s
+            """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
+            conn.commit()
+
+            # Atualizar a lista interna
+            for missao in self.missoes:
+                if missao['id'] == id_missao:
+                    missao['objetivo'] = novo_objetivo
+                    missao['equipe_designada'] = nova_equipe
+                    missao['data_inicio'] = nova_data_inicio
+                    missao['data_termino'] = nova_data_termino
+                    missao['status'] = novo_status
+                    break
+
+            cursor.close()
+            conn.close()
+            print(f"Missão com ID {id_missao} atualizada com sucesso.")
+
+        def excluir_missao(self, id_missao):
+            # Verifica se a missão está na lista e a remove
+            missao_encontrada = None
+            for missao in self.missoes:
+                if missao['id'] == id_missao:
+                    self.missoes.remove(missao)
+                    missao_encontrada = missao
+                    break
+            if not missao_encontrada:
+                print(f"Missão com ID {id_missao} não encontrada na lista.")
+                return
+            
+            # Remove a missão do banco de dados
+            conn = conectar_bd()
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Missão com ID {id_missao} excluída do banco de dados.")
+
+
+        def consultar_missoes(self):
+            conn = conectar_bd()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM Missao")
+            missoes = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return missoes
+
+        def matricular_em_aula(self, nome_aluno, nome_aula):
+            aluno = None
+            aula = None
+
+            for a in self.alunos:
+                if a['nome'] == nome_aluno:
+                    aluno = a
+                    break
+            for a in self.aulas:
+                if a['nome'] == nome_aula:
+                    aula = a
+                    break
+
+            if not aluno or not aula:
+                print("Aluno ou aula não encontrados.")
+                return
+
+            conn = conectar_bd()
+            cursor = conn.cursor()
+
+            # Verificar disponibilidade de vagas
+            cursor.execute("SELECT COUNT(*) FROM Matricula WHERE aula_id = %s", (aula['id'],))
+            matriculas_atuais = cursor.fetchone()[0]
+            if matriculas_atuais >= aula['vagas']:
+                print("Aula cheia.")
+                cursor.close()
+                conn.close()
+                return
+
+            # Registrar matrícula
+            cursor.execute("INSERT INTO Matricula (aluno_id, aula_id) VALUES (%s, %s)", (aluno['id'], aula['id']))
+
+            # Atualizar histórico de participação
+            cursor.execute("INSERT INTO HistoricoParticipacao (aluno_id, aula_id, data) VALUES (%s, %s, NOW())", (aluno['id'], aula['id']))
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Aluno {nome_aluno} matriculado na aula {nome_aula}.")
+
+            # Atualizar disponibilidade de vagas
+            aula['vagas'] -= 1
 
 
 
@@ -1057,12 +1057,34 @@ def criar_equipe_interface():
     nome = entry_nome_equipe.get()
     instrutor = entry_instrutor_equipe.get()
     membros = entry_membros_equipe.get().split(",")
-    membros = [sistema.buscar_aluno_por_nome(membro.strip()) for membro in membros]
-
-    equipe = Equipe(nome, instrutor, membros)
-    sistema.criar_equipe(equipe)
-    messagebox.showinfo("Sucesso", f"Equipe {nome} criada com sucesso!")
-
+    
+    membros = [membro.strip() for membro in membros if membro.strip()]
+    
+    # Verificando se todos os campos obrigatórios foram preenchidos
+    if nome and instrutor and membros:
+        membros_obj = []
+        
+        # Buscando cada membro no sistema pelo nome
+        for membro in membros:
+            aluno = sistema.buscar_aluno_por_nome(membro)
+            if aluno:
+                membros_obj.append(aluno)
+            else:
+                messagebox.showerror("Erro", f"Aluno '{membro}' não encontrado.")
+                return
+        
+        # Criando um objeto Equipe com os dados coletados
+        equipe = Equipe(nome, instrutor, membros_obj)
+        
+        # Chamando a função do sistema para criar a equipe
+        sistema.criar_equipe(equipe)
+        
+        # Mostrando mensagem de sucesso
+        messagebox.showinfo("Sucesso", f"Equipe '{nome}' criada com sucesso!")
+        
+    else:
+        # Mostrando mensagem de erro se algum campo obrigatório não foi preenchido
+        messagebox.showerror("Erro", "Por favor, preencha todos os campos obrigatórios.")
 
 
 
