@@ -104,7 +104,7 @@ Escolha a opção "Excluir Aula" no menu principal.
 Escolha a opção " NOME DA AULA" no menu principal.
 Se a aula estiver cadastrado corretamente ele sera excluido.
 
-3. Crud Equipe
+# 3. Crud Equipe
    
 3.1. Para cadastrar uma nova equipe, siga os seguintes passos:
 
