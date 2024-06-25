@@ -170,6 +170,20 @@ class Sistema:
         self.aulas = []
         self.missoes = []
         self.equipes = []
+        self.carregar_dados()
+
+    def carregar_dados(self):
+        self.carregar_missoes()
+
+    def carregar_missoes(self):
+        conn = conectar_bd()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Missao")
+        missoes = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        for missao in missoes:
+            self.missoes.append(missao)
     
     def cadastrar_aluno(self, aluno):
         if aluno.validar():
@@ -416,14 +430,15 @@ class Sistema:
 
 
 
-    # Método para excluir uma missão
     def excluir_missao(self, id_missao):
         # Verifica se a missão está na lista e a remove
+        missao_encontrada = None
         for missao in self.missoes:
             if missao['id'] == id_missao:
                 self.missoes.remove(missao)
+                missao_encontrada = missao
                 break
-        else:
+        if not missao_encontrada:
             print(f"Missão com ID {id_missao} não encontrada na lista.")
             return
         
@@ -438,18 +453,10 @@ class Sistema:
 
 
 
+
+
     # Método para criar uma nova missão
     def criar_missao(self, objetivo, equipe_designada, data_inicio, data_termino, status='Pendente'):
-        missao = {
-            'objetivo': objetivo,
-            'equipe_designada': equipe_designada,
-            'data_inicio': data_inicio,
-            'data_termino': data_termino,
-            'status': status
-        }
-        self.missoes.append(missao)
-
-        # Adiciona a missão ao banco de dados
         conn = conectar_bd()
         cursor = conn.cursor()
         cursor.execute("""
@@ -457,12 +464,84 @@ class Sistema:
         VALUES (%s, %s, %s, %s, %s)
         """, (objetivo, equipe_designada, data_inicio, data_termino, status))
         conn.commit()
+        
+        # Adiciona a missão à lista interna
+        cursor.execute("SELECT * FROM Missao WHERE id = LAST_INSERT_ID()")
+        nova_missao = cursor.fetchone()
+        self.missoes.append(nova_missao)
+        
         cursor.close()
         conn.close()
         print(f"Missão '{objetivo}' criada com sucesso.")
 
+    def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
+        conn = conectar_bd()
+        cursor = conn.cursor(dictionary=True)
 
-    # Método para consultar missões
+        # Verificar se a missão existe
+        cursor.execute("SELECT * FROM Missao WHERE id = %s", (id_missao,))
+        missao_encontrada = cursor.fetchone()
+
+        if not missao_encontrada:
+            print(f"Missão com ID {id_missao} não encontrada.")
+            cursor.close()
+            conn.close()
+            return
+
+        # Atualizar os valores conforme necessário
+        novo_objetivo = novo_objetivo or missao_encontrada['objetivo']
+        nova_equipe = nova_equipe or missao_encontrada['equipe_designada']
+        nova_data_inicio = nova_data_inicio or missao_encontrada['data_inicio']
+        nova_data_termino = nova_data_termino or missao_encontrada['data_termino']
+        novo_status = novo_status or missao_encontrada['status']
+
+        cursor.execute("""
+        UPDATE Missao SET
+            objetivo = %s,
+            equipe_designada = %s,
+            data_inicio = %s,
+            data_termino = %s,
+            status = %s
+        WHERE id = %s
+        """, (novo_objetivo, nova_equipe, nova_data_inicio, nova_data_termino, novo_status, id_missao))
+        conn.commit()
+
+        # Atualizar a lista interna
+        for missao in self.missoes:
+            if missao['id'] == id_missao:
+                missao['objetivo'] = novo_objetivo
+                missao['equipe_designada'] = nova_equipe
+                missao['data_inicio'] = nova_data_inicio
+                missao['data_termino'] = nova_data_termino
+                missao['status'] = novo_status
+                break
+
+        cursor.close()
+        conn.close()
+        print(f"Missão com ID {id_missao} atualizada com sucesso.")
+
+    def excluir_missao(self, id_missao):
+        # Verifica se a missão está na lista e a remove
+        missao_encontrada = None
+        for missao in self.missoes:
+            if missao['id'] == id_missao:
+                self.missoes.remove(missao)
+                missao_encontrada = missao
+                break
+        if not missao_encontrada:
+            print(f"Missão com ID {id_missao} não encontrada na lista.")
+            return
+        
+        # Remove a missão do banco de dados
+        conn = conectar_bd()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Missao WHERE id = %s", (id_missao,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print(f"Missão com ID {id_missao} excluída do banco de dados.")
+
+
     def consultar_missoes(self):
         conn = conectar_bd()
         cursor = conn.cursor(dictionary=True)
@@ -471,7 +550,6 @@ class Sistema:
         cursor.close()
         conn.close()
         return missoes
-
 
 
 
@@ -698,9 +776,14 @@ def atualizar_missao_interface():
         messagebox.showerror("Erro", "Por favor, informe o ID da missão.")
 
 # Função para excluir missão na interface gráfica
-def excluir_missao():
+def excluir_missao_interface():
     id_missao = entry_id_missao_excluir.get()
     if id_missao:
+        try:
+            id_missao = int(id_missao)
+        except ValueError:
+            messagebox.showerror("Erro", "ID da missão deve ser um número inteiro")
+            return
         sistema.excluir_missao(id_missao)
         messagebox.showinfo("Sucesso", f"Missão com ID {id_missao} excluída com sucesso!")
     else:
@@ -1029,13 +1112,12 @@ ttk.Button(tab6, text="Atualizar Missão", command=atualizar_missao_interface).g
 
 
 
-# Excluir Missão
+#Excluir Missão
 ttk.Label(tab6, text="ID da Missão para Excluir:").grid(column=6, row=0, padx=10, pady=5)
 entry_id_missao_excluir = ttk.Entry(tab6)
 entry_id_missao_excluir.grid(column=7, row=0, padx=10, pady=5)
 
-ttk.Button(tab6, text="Excluir Missão", command=excluir_missao).grid(column=6, row=12, columnspan=2, pady=10)
-
+ttk.Button(tab6, text="Excluir Missão", command=excluir_missao_interface).grid(column=6, row=1, columnspan=2, pady=10)
 
 
 
