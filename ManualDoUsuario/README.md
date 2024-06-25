@@ -16,11 +16,11 @@ Este sistema permite cadastrar, consultar e gerenciar alunos mutantes, aulas, mi
 
 Quando você iniciar o sistema, verá o menu principal com as seguintes opções:
 
-1.Crud Aluno
+1. Crud Aluno
 
-2.Crud Aula
+2. Crud Aula
 
-3.Crud Equipe
+3. Crud Equipe
 
 4. Crud Missão
 
