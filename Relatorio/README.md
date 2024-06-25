@@ -94,10 +94,155 @@ O menu apresenta opções numeradas, permitindo que o usuário faça suas escolh
 
 No final o menu ficou com 11 opções.
 
-# 5/06
+# 5/06 até 18/06
 
 Fiz a conexão com o banco de dados, configurei a conexão com o banco de dados no codigo e Implementei métodos para salvar e buscar dados no banco de dados.
 
-Adicionei a função conectar_db() para fazer a conexão com mysql.
+mysql.connector: Utilizada para a conexão e execução de comandos no banco de dados MySQL.
 
-foi feito o método CRUD na parte 
+Conexão com o Banco de Dados
+
+Para conectar-se ao banco de dados MySQL, a função conectar_bd foi definida
+
+Criação do Banco de Dados
+
+A função criar_db cria o banco de dados xman caso ele ainda não exista:
+
+A função criar_tabelas é responsável por criar todas as tabelas necessárias dentro do banco de dados xman:
+
+Aluno: Armazena informações sobre os alunos, incluindo nome, idade, habilidades, nível de poder, equipe e status de matrícula.
+
+Aula: Contém detalhes sobre as aulas oferecidas, como nome, instrutor e número de vagas.
+
+Missao: Registra informações sobre as missões, como objetivo, equipe designada, datas de início e término, e status.
+
+Matricula: Relaciona alunos e aulas, representando as matrículas dos alunos nas aulas.
+
+HistoricoParticipacao: Registra a participação dos alunos nas aulas ao longo do tempo.
+
+Equipe: Guarda informações sobre as equipes, incluindo nome e instrutor.
+
+Membros_Equipe: Relaciona alunos às equipes, registrando a participação dos alunos nas equipes.
+
+# 19/06 até 20/06
+A classe Aluno foi desenvolvida para representar e gerenciar informações sobre os alunos da escola de mutantes. Esta classe permite a criação de instâncias de alunos, validação de dados, armazenamento no banco de dados e busca de registros de alunos. Abaixo, detalharemos a estrutura, métodos e funcionalidades desta classe.
+
+Atributos
+A classe Aluno possui os seguintes atributos:
+
+nome: Nome do aluno (string).
+
+idade: Idade do aluno (inteiro).
+
+habilidades: Lista de habilidades do aluno (lista de strings).
+
+nivel_poder: Nível de poder do aluno (string).
+
+equipe: Equipe à qual o aluno pertence (string, opcional).
+
+status_matricula: Status de matrícula do aluno (string, padrão 'Ativo').
+
+__init__(self, nome, idade, habilidades, nivel_poder, equipe=None, status_matricula='Ativo')
+Este é o método construtor da classe, responsável por inicializar uma nova instância de Aluno com os atributos fornecidos.
+
+validar(self)
+Este método verifica se os dados do aluno são válidos. Ele retorna True se todos os dados necessários estão presentes e válidos, caso contrário, retorna False.
+
+salvar_bd(self)
+Este método salva os dados do aluno no banco de dados. Ele se conecta ao banco de dados, insere os dados do aluno na tabela Aluno e, em seguida, fecha a conexão.
+
+buscar_bd(nome=None, habilidades=None, equipe=None, status_matricula=None)
+Este método estático permite buscar alunos no banco de dados com base em critérios fornecidos (nome, habilidades, equipe e status de matrícula). Ele constrói dinamicamente a consulta SQL de acordo com os parâmetros fornecidos, executa a consulta e retorna os resultados.
+
+Para criar um aluno, uma instância da classe Aluno é inicializada com os dados do aluno.
+
+#21/06 até 22/06
+Atributos
+A classe Aula possui os seguintes atributos:
+
+nome: Nome da aula (string).
+
+instrutor: Nome do instrutor da aula (string).
+
+vagas: Número de vagas disponíveis para a aula (inteiro).
+
+__init__(self, nome, instrutor, vagas)
+Este é o método construtor da classe, responsável por inicializar uma nova instância de Aula com os atributos fornecidos.
+
+salvar_bd(self)
+Este método salva os dados da aula no banco de dados. Ele se conecta ao banco de dados, insere os dados da aula na tabela Aula e, em seguida, fecha a conexão.
+
+Criação de uma Aula
+Para criar uma aula, uma instância da classe Aula é inicializada com os dados da aula.
+
+Atributos
+A classe Missao possui os seguintes atributos:
+
+objetivo: Objetivo da missão (string).
+
+equipe_designada: Equipe designada para a missão (string).
+
+data_inicio: Data de início da missão (data).
+
+data_termino: Data de término da missão (data).
+
+status: Status da missão (string, padrão 'Pendente').
+
+Atributos
+A classe Equipe possui os seguintes atributos:
+
+nome: Nome da equipe (string).
+
+instrutor: Nome do instrutor da equipe (string).
+
+membros: Lista de membros da equipe (lista de dicionários, onde cada dicionário representa um membro com um ID e um nome).
+
+__init__(self, nome, instrutor, membros=[])
+Este é o método construtor da classe, responsável por inicializar uma nova instância de Equipe com os atributos fornecidos.
+
+salvar_bd(self)
+Este método salva os dados da equipe no banco de dados. Ele se conecta ao banco de dados, insere os dados da equipe na tabela Equipe, recupera o ID da equipe inserida, insere os membros da equipe na tabela Membros_Equipe e, em seguida, fecha a conexão.
+
+carregar_bd()
+Este método estático carrega todas as equipes do banco de dados, incluindo seus membros. Ele se conecta ao banco de dados, recupera os dados das equipes da tabela Equipe, para cada equipe, recupera seus membros da tabela Membros_Equipe e, em seguida, fecha a conexão.
+
+#23/06 sofrendo muitos updates class sistema
+
+Resumo das Funcionalidades Principais:
+
+Inicialização e Carregamento de Dados:
+
+No método __init__, ao criar uma instância de Sistema, os dados são carregados automaticamente chamando o método carregar_dados().
+carregar_dados() chama métodos específicos para carregar alunos, aulas, missões e equipes do banco de dados.
+Gerenciamento de Alunos:
+
+cadastrar_aluno(aluno): Valida e cadastra um aluno no banco de dados e na lista interna self.alunos.
+buscar_alunos(nome=None, habilidades=None, equipe=None, status_matricula=None): Chama um método estático Aluno.buscar_bd() para buscar alunos com critérios específicos.
+Gerenciamento de Aulas:
+
+cadastrar_aula(aula): Salva uma nova aula no banco de dados e na lista interna self.aulas.
+consultar_aulas(): Retorna a lista de aulas carregadas.
+Gerenciamento de Missões:
+
+cadastrar_missao(missao): Salva uma nova missão no banco de dados e na lista interna self.missoes.
+consultar_missoes(): Retorna a lista de missões carregadas.
+atualizar_missao(id_missao, ...) e excluir_missao(id_missao): Atualiza e exclui missões no banco de dados e na lista interna.
+Gerenciamento de Equipes:
+
+criar_equipe(nome, membros, instrutor): Cria uma nova equipe com membros e um instrutor, salvando-a no banco de dados e na lista interna self.equipes.
+consultar_equipes(): Retorna a lista de equipes carregadas.
+Métodos para atualizar e excluir equipes.
+Matrícula em Aula:
+
+matricular_em_aula(nome_aluno, nome_aula): Matricula um aluno em uma aula específica, atualizando o banco de dados e a lista interna de vagas da aula.
+
+Análise dos Métodos
+Persistência de Dados: Todos os métodos de cadastro (cadastrar_aluno, cadastrar_aula, cadastrar_missao, criar_equipe) utilizam o método salvar_bd() das respectivas classes (Aluno, Aula, Missao, Equipe) para persistir os dados no banco de dados após validação.
+
+Atualização e Exclusão: Métodos como atualizar_aluno, atualizar_aula, atualizar_missao, atualizar_equipe e equivalentes de exclusão utilizam comandos SQL diretamente para atualizar ou excluir registros do banco de dados, garantindo consistência entre a lista interna e o banco.
+
+Consulta e Carregamento: Métodos como buscar_alunos, consultar_aulas, consultar_missoes, consultar_equipes usam consultas SQL para carregar dados específicos do banco de dados e retorná-los como listas de dicionários.
+
+# 29/06
+
+Criação da interface usando a bliblioteca tkinter arrumando os erros até hoje
