@@ -175,7 +175,7 @@ Escolha a opção " ID da missão" no menu principal.
 Digite ID da missão que deseja excluir.
 Se a missão estiver cadastrada corretamente ele sera excluida.
 
-5. Matricular aluno em aula
+# 5. Matricular aluno em aula
    
 Para matricular um aluno em uma aula, siga os seguintes passos:
 
@@ -184,7 +184,7 @@ Insira o nome do aluno.
 Insira o nome da aula.
 Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
 
-6. Sair
+# 6. Sair
     
 Para sair do sistema, siga os seguintes passos:
 
