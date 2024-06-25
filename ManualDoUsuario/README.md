@@ -22,22 +22,18 @@ Quando você iniciar o sistema, verá o menu principal com as seguintes opções
 
 3.Crud Equipe
 
-4. Matricular aluno em aula
+4. Crud Missão
 
-5. Cadastrar nova missão
-
-6. Consultar missões
-
-7. Registrar participação em missão
-
-8. Sair
+5. Matricular aluno em aula
+   
+6. Sair
     
 Digite o número da opção desejada e pressione Enter para acessar a funcionalidade correspondente.
 <div>
   <h1>• Funcionalidades </h1>
 </div> 
 
-1. Crud Aluno
+# 1. Crud Aluno
    
 1.1. Para cadastrar um novo aluno, siga os seguintes passos:
 
@@ -76,7 +72,7 @@ Escolha a opção " NOME" no menu principal.
 Se o aluno estiver cadastrado corretamente ele sera excluido.
 
 
-2. Crud aula
+# 2. Crud aula
    
 2.1. Para cadastrar uma nova aula, siga os seguintes passos:
 
@@ -143,8 +139,43 @@ Escolha a opção " NOME" no menu principal.
 Digite o nome da equipe que deseja excluir.
 Se a equipe estiver cadastrada corretamente ele sera excluida.
 
+# 4. Crud missão
+   
+4.1. Para cadastrar uma nova missão, siga os seguintes passos:
 
-4. Matricular aluno em aula
+Escolha a opção "Criar" no menu principal.
+Insira o objetivo da missão.
+Insira a equipe designada para a missão.
+Insira a data de início da missão (formato AAAA-MM-DD).
+Insira a data de término da missão (formato AAAA-MM-DD).
+Insira o status da missão (formato concluido ou nao concluido).
+Se os dados forem válidos, a missão será cadastrada com sucesso.
+
+4.2. Consultar missões
+   
+Para consultar todas as missões, siga os seguintes passos:
+
+Escolha a opção "consultar missão" no menu principal.
+As missões cadastradas serão exibidas com detalhes como objetivo, equipe designada, datas de início e término, e status.
+
+4.3. Atualizar Missão
+
+Escolha a opção "Atualizar missão" no menu principal.
+Insira o novo objetivo da missão.
+Insira a nova equipe designada para a missão.
+Insira a nova data de início da missão (formato AAAA-MM-DD).
+Insira a nova data de término da missão (formato AAAA-MM-DD).
+Insira o novo status da missão (formato concluido ou nao concluido).
+Se os dados forem válidos, a missão será cadastrada com sucesso.
+
+4.4. Para Excluir a missão, siga os seguintes passos:
+
+Escolha a opção "Excluir Missão" no menu principal.
+Escolha a opção " ID da missão" no menu principal.
+Digite ID da missão que deseja excluir.
+Se a missão estiver cadastrada corretamente ele sera excluida.
+
+5. Matricular aluno em aula
    
 Para matricular um aluno em uma aula, siga os seguintes passos:
 
@@ -153,35 +184,7 @@ Insira o nome do aluno.
 Insira o nome da aula.
 Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
 
-5. Cadastrar nova missão
-   
-Para cadastrar uma nova missão, siga os seguintes passos:
-
-Escolha a opção "6" no menu principal.
-Insira o objetivo da missão.
-Insira a equipe designada para a missão.
-Insira a data de início da missão (formato AAAA-MM-DD).
-Insira a data de término da missão (formato AAAA-MM-DD).
-Se os dados forem válidos, a missão será cadastrada com sucesso.
-
-6. Consultar missões
-   
-Para consultar todas as missões, siga os seguintes passos:
-
-Escolha a opção "7" no menu principal.
-As missões cadastradas serão exibidas com detalhes como objetivo, equipe designada, datas de início e término, e status.
-
-7. Registrar participação em missão
-   
-Para registrar a participação de um aluno em uma missão, siga os seguintes passos:
-
-Escolha a opção "8" no menu principal.
-Insira o nome do aluno.
-Insira o objetivo da missão.
-Se o aluno e a missão forem encontrados, a participação do aluno será registrada na missão.
-
-
-8. Sair
+6. Sair
     
 Para sair do sistema, siga os seguintes passos:
 
