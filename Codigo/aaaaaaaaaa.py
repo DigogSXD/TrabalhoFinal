@@ -757,6 +757,21 @@ class Sistema:
         aula['vagas'] -= 1
 
 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
