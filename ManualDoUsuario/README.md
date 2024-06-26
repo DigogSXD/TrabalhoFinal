@@ -59,7 +59,9 @@ Se os dados forem válidos, o aluno será cadastrado com sucesso.
 
 Escolha a opção "Consultar Aluno" no menu principal.
 
-Insira os critérios de busca (nome, habilidades, equipe, status de matrícula). Você pode deixar os campos em branco para ignorar o critério.
+Insira os critérios de busca (nome, habilidades, equipe, status de matrícula).
+
+Você pode deixar os campos em branco para ignorar o critério.
 
 Os alunos que correspondem aos critérios de busca serão exibidos.
 
