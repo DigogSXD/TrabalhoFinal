@@ -26,7 +26,9 @@ Quando você iniciar o sistema, verá o menu principal com as seguintes opções
 
 5. Matricular aluno em aula
    
-6. Sair
+6. Registrar em missão
+   
+7. Sair
     
 Digite o número da opção desejada e pressione Enter para acessar a funcionalidade correspondente.
 <div>
@@ -203,6 +205,8 @@ Escolha a opção "Sair" no menu principal.
 O sistema será encerrado.
 Validação de Dados
 O sistema realiza a validação de dados nas seguintes situações:
+
+# Informações adicionais.
 
 Cadastro de Aluno: Verifica se todos os campos obrigatórios foram preenchidos e se a idade é um número positivo.
 Cadastro de Aula: Verifica se o número de vagas é um número positivo.
