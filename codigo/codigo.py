@@ -260,8 +260,6 @@ class Aluno:
 
 
 
-
-
 class Aula:
     def __init__(self, nome, instrutor, vagas):
         self.nome = nome
@@ -1659,10 +1657,6 @@ ttk.Button(tab8, text="Registrar em Missão", command=registrar_missao_interface
 
 
 
-
-
-
-
 # Aba 6: Criar Equipe
 ttk.Label(tab3, text="Nome da Equipe:").grid(column=0, row=0, padx=10, pady=5)
 entry_nome_equipe = ttk.Entry(tab3)
@@ -1707,11 +1701,11 @@ ttk.Button(tab3, text="Atualizar Equipe", command=atualizar_equipe).grid(column=
 
 
 # Excluir Equipe
-ttk.Label(tab3, text="Nome da Equipe para Excluir:").grid(column=6, row=0, padx=10, pady=5)
+ttk.Label(tab3, text="Nome da Equipe para Excluir:").grid(column=0, row=6, padx=10, pady=5)
 entry_nome_equipe_excluir = ttk.Entry(tab3)
-entry_nome_equipe_excluir.grid(column=7, row=0, padx=10, pady=5)
+entry_nome_equipe_excluir.grid(column=1, row=7, padx=10, pady=5)
 
-ttk.Button(tab3, text="Excluir Equipe", command=excluir_equipe).grid(column=6, row=1, columnspan=2, pady=10)
+ttk.Button(tab3, text="Excluir Equipe", command=excluir_equipe).grid(column=0, row=6, columnspan=2, pady=10)
 
 
 
