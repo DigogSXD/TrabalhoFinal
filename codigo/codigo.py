@@ -9,7 +9,7 @@ def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="12345678",
+        password="ceub123456",
         database="xman"
     )
 
@@ -17,7 +17,7 @@ def criar_db():
     conn = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="12345678"
+        password="ceub123456"
     )
     cursor = conn.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS xman")
