@@ -39,29 +39,29 @@ Digite o número da opção desejada e pressione Enter para acessar a funcionali
    
 ## 1.1. Para cadastrar um novo aluno, siga os seguintes passos:
 
-Escolha a opção "NOME" no menu principal.
+- Escolha a opção "NOME" no menu principal.
 
-Insira o nome do aluno.
+- Insira o nome do aluno.
 
-Insira a idade do aluno (deve ser um número positivo).
+- Insira a idade do aluno (deve ser um número positivo).
 
-Insira as habilidades mutantes do aluno, separadas por vírgulas.
+- Insira as habilidades mutantes do aluno, separadas por vírgulas.
 
-Insira o nível de poder do aluno.
+- Insira o nível de poder do aluno.
 
-Insira a equipe do aluno (opcional).
+- Insira a equipe do aluno (opcional).
 
-Insira o status de matrícula do aluno (padrão: Ativo).
+- Insira o status de matrícula do aluno (padrão: Ativo).
 
-Se os dados forem válidos, o aluno será cadastrado com sucesso.
+- Se os dados forem válidos, o aluno será cadastrado com sucesso.
 
 ## 1.2. Para consultar alunos, siga os seguintes passos:
 
-Escolha a opção "Consultar Aluno" no menu principal.
+- Escolha a opção "Consultar Aluno" no menu principal.
 
-Insira os critérios de busca (nome, habilidades, equipe, status de matrícula).
+- Insira os critérios de busca (nome, habilidades, equipe, status de matrícula).
 
-Você pode deixar os campos em branco para ignorar o critério.
+- Você pode deixar os campos em branco para ignorar o critério.
 
 Os alunos que correspondem aos critérios de busca serão exibidos.
 
