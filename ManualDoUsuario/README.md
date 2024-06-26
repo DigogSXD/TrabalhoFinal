@@ -55,7 +55,7 @@ Insira o status de matrícula do aluno (padrão: Ativo).
 
 Se os dados forem válidos, o aluno será cadastrado com sucesso.
 
-1.2. Para consultar alunos, siga os seguintes passos:
+## 1.2. Para consultar alunos, siga os seguintes passos:
 
 Escolha a opção "Consultar Aluno" no menu principal.
 
