@@ -179,16 +179,27 @@ Se a missão estiver cadastrada corretamente ele sera excluida.
    
 Para matricular um aluno em uma aula, siga os seguintes passos:
 
-Escolha a opção "5" no menu principal.
+Escolha a opção "Matricular em aula" no menu principal.
 Insira o nome do aluno.
 Insira o nome da aula.
 Se o aluno e a aula forem encontrados, o aluno será matriculado na aula, e o número de vagas disponíveis será atualizado.
 
-# 6. Sair
+
+
+# 6.Registrar em missão
+Para cadastrar uma nova missão, siga os seguintes passos:
+
+Insira o objetivo da missão.
+Insira a equipe designada para a missão.
+Insira a data de início da missão (formato AAAA-MM-DD).
+Insira a data de término da missão (formato AAAA-MM-DD).
+Insira o status da missão (formato concluido ou nao concluido).
+
+# 7. Sair
     
 Para sair do sistema, siga os seguintes passos:
 
-Escolha a opção "11" no menu principal.
+Escolha a opção "Sair" no menu principal.
 O sistema será encerrado.
 Validação de Dados
 O sistema realiza a validação de dados nas seguintes situações:
@@ -198,4 +209,4 @@ Cadastro de Aula: Verifica se o número de vagas é um número positivo.
 Mensagens de Erro
 Se você inserir dados inválidos, o sistema exibirá mensagens de erro apropriadas e solicitará que você tente novamente.
 
-Este manual cobre todas as funcionalidades básicas do sistema. Siga as instruções fornecidas para utilizar o sistema de maneira eficiente e sem erros. Se precisar de ajuda adicional, não hesite em procurar suporte técnico.
+## Este manual cobre todas as funcionalidades básicas do sistema. Siga as instruções fornecidas para utilizar o sistema de maneira eficiente e sem erros. Se precisar de ajuda adicional, não hesite em procurar suporte técnico.
