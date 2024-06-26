@@ -289,7 +289,7 @@ Digite o número da opção desejada e pressione Enter para acessar a funcionali
 
 
 
-# - Informações adicionais.
+- # Informações adicionais.
 
 - Cadastro de Aluno: Verifica se todos os campos obrigatórios foram preenchidos e se a idade é um número positivo.
 
