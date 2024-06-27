@@ -9,7 +9,7 @@ def conectar_bd():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="ceub123456",
+        password="12345678",
         database="xman"
     )
 
@@ -17,7 +17,7 @@ def criar_db():
     conn = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="ceub123456"
+        password="12345678"
     )
     cursor = conn.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS xman")
@@ -216,6 +216,19 @@ class Aluno:
     def salvar_bd(self):
         conn = conectar_bd()
         cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO Equipe (nome, instrutor)
+            VALUES (%s, %s)
+        """, (self.nome, self.instrutor))
+        conn.commit()
+        equipe_id = cursor.lastrowid
+
+        for membro in self.membros:
+            cursor.execute("""
+                INSERT INTO membros_equipe (equipe_id, aluno_id)
+                VALUES (%s, %s)
+            """, (equipe_id, membro['id']))
+        
         cursor.execute("""
             INSERT INTO Aluno (nome, idade, habilidades, nivel_poder, equipe, status_matricula)
             VALUES (%s, %s, %s, %s, %s, %s)
@@ -484,22 +497,22 @@ class Sistema:
         self.missoes.append(missao)
         print(f"Missão '{missao.objetivo}' cadastrada com sucesso.")
 
-    def criar_equipe(self, equipe):
+    def criar_equipe(self, nome, instrutor, membros):
         conn = conectar_bd()
         cursor = conn.cursor()
 
         cursor.execute("""
             INSERT INTO Equipe (nome, instrutor)
             VALUES (%s, %s)
-        """, (equipe.nome, equipe.instrutor))
+        """, (nome, instrutor))
         equipe_id = cursor.lastrowid
 
-        for membro in equipe.membros:
+        for membro in membros:
             cursor.execute("""
                 UPDATE Aluno
                 SET equipe = %s
                 WHERE id = %s
-            """, (equipe.nome, membro['id']))
+            """, (nome, membro['id']))
 
         conn.commit()
         cursor.close()
@@ -644,16 +657,16 @@ class Sistema:
 
 
     # Método para atualizar uma equipe
-    def atualizar_equipe(self, nome_equipe, novo_nome=None, novos_membros=None, novo_instrutor=None):
+    def atualizar_equipe(self, nome, novo_nome=None, novos_membros=None, novo_instrutor=None):
         equipe_encontrada = None
 
         for equipe in self.equipes:
-            if equipe['nome'] == nome_equipe:
+            if equipe['nome'] == nome:
                 equipe_encontrada = equipe
                 break
 
         if not equipe_encontrada:
-            print(f"Equipe {nome_equipe} não encontrada.")
+            print(f"Equipe {nome} não encontrada.")
             return
 
         if novo_nome:
@@ -668,42 +681,36 @@ class Sistema:
         cursor = conn.cursor()
 
         if novo_nome:
-            cursor.execute("UPDATE Equipe SET nome = %s WHERE nome = %s", (novo_nome, nome_equipe))
+            cursor.execute("UPDATE Equipe SET nome = %s WHERE nome = %s", (novo_nome, nome))
 
         if novo_instrutor:
-            cursor.execute("UPDATE Equipe SET instrutor = %s WHERE nome = %s", (novo_instrutor, novo_nome or nome_equipe))
+            cursor.execute("UPDATE Equipe SET instrutor = %s WHERE nome = %s", (novo_instrutor, novo_nome or nome))
 
         if novos_membros:
-            cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
+            cursor.execute("DELETE FROM membros_equipe WHERE equipe_id = (SELECT id FROM Equipe WHERE nome = %s)", (nome,))
             for membro in novos_membros:
-                cursor.execute("INSERT INTO Membros_Equipe (equipe_nome, membro_nome) VALUES (%s, %s)", (novo_nome or nome_equipe, membro.nome))
+                cursor.execute("INSERT INTO membros_equipe (equipe_id, aluno_id) VALUES (%s, %s)", (novo_nome or nome, membro['id']))
 
         conn.commit()
         cursor.close()
         conn.close()
-        print(f"Equipe {nome_equipe} atualizada com sucesso.")
+        print(f"Equipe {nome} atualizada com sucesso.")
 
 
-    # Método para excluir uma equipe
-    def excluir_equipe(self, nome_equipe):
-        # Verifica se a equipe está na lista e a remove
-        for equipe in self.equipes:
-            if equipe['nome'] == nome_equipe:
-                self.equipes.remove(equipe)
-                break
-        else:
-            print(f"Equipe {nome_equipe} não encontrada na lista.")
-            return
+
+
+
+
         
         # Remove a equipe e seus membros do banco de dados
         conn = conectar_bd()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome_equipe,))
-        cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome_equipe,))
+        cursor.execute("DELETE FROM Membros_Equipe WHERE equipe_nome = %s", (nome,))
+        cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome,))
         conn.commit()
         cursor.close()
         conn.close()
-        print(f"Equipe {nome_equipe} excluída do banco de dados.")
+        print(f"Equipe {nome} excluída do banco de dados.")
 
     def atualizar_missao(self, id_missao, novo_objetivo=None, nova_equipe=None, nova_data_inicio=None, nova_data_termino=None, novo_status=None):
         conn = conectar_bd()
@@ -943,7 +950,28 @@ class Sistema:
 
 
 
+# Método para excluir uma equipe
+    def excluir_equipe(nome):
+        conn = conectar_bd()
+        cursor = conn.cursor()
 
+        try:
+            # Passo 1: Excluir membros da equipe
+            cursor.execute("DELETE FROM membros_equipe WHERE equipe_id = (SELECT id FROM Equipe WHERE nome = %s)", (nome,))
+            conn.commit()
+
+            # Passo 2: Excluir a equipe em si
+            cursor.execute("DELETE FROM Equipe WHERE nome = %s", (nome,))
+            conn.commit()
+
+            print(f'Equipe {nome} excluída com sucesso.')
+
+        except mysql.connector.Error as err:
+            print(f'Erro ao excluir equipe: {err}')
+
+        finally:
+            cursor.close()
+            conn.close()
 
 
 
@@ -1063,27 +1091,7 @@ def consultar_missoes():
     else:
         messagebox.showinfo("Resultados", "Nenhuma missão cadastrada.")
 
-def criar_equipe():
-    nome_equipe = entry_nome_equipe.get()
-    nomes_membros = entry_nomes_membros.get().split(',')
-    instrutor = entry_instrutor_equipe.get()
-    membros = [a for a in sistema.alunos if a.nome in nomes_membros]
-    if membros:
-        sistema.criar_equipe(nome_equipe, membros, instrutor)
-        messagebox.showinfo("Sucesso", f"Equipe {nome_equipe} criada com sucesso!")
-    else:
-        messagebox.showerror("Erro", "Membros não encontrados. Tente novamente.")
 
-def consultar_equipes():
-    equipes = sistema.consultar_equipes()
-    if equipes:
-        result_text = ""
-        for equipe in equipes:
-            membros_nomes = equipe['membros']  # equipe['membros'] já é uma lista de nomes
-            result_text += f"Nome: {equipe['nome']}, Instrutor: {equipe['instrutor']}, Membros: {', '.join(membros_nomes)}\n"
-        messagebox.showinfo("Resultados", result_text)
-    else:
-        messagebox.showinfo("Resultados", "Nenhuma equipe cadastrada.")
 
 
 
@@ -1133,28 +1141,6 @@ def excluir_aula():
     else:
         messagebox.showerror("Erro", "Por favor, informe o nome da aula.")
 
-# Função para atualizar equipe na interface gráfica
-def atualizar_equipe():
-    nome_equipe = entry_nome_equipe.get()
-    novo_nome = entry_novo_nome_equipe.get()
-    novo_instrutor = entry_novo_instrutor_equipe.get()
-    novos_membros_nomes = entry_novos_membros_equipe.get().split(',')
-
-    if nome_equipe:
-        novos_membros = [aluno for aluno in sistema.alunos if aluno.nome in novos_membros_nomes]
-        sistema.atualizar_equipe(nome_equipe, novo_nome, novos_membros, novo_instrutor)
-        messagebox.showinfo("Sucesso", f"Equipe {nome_equipe} atualizada com sucesso!")
-    else:
-        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
-
-# Função para excluir equipe na interface gráfica
-def excluir_equipe():
-    nome_equipe = entry_nome_equipe_excluir.get()
-    if nome_equipe:
-        sistema.excluir_equipe(nome_equipe)
-        messagebox.showinfo("Sucesso", f"Equipe {nome_equipe} excluída com sucesso!")
-    else:
-        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
 
 # Função para atualizar missão na interface gráfica
 def atualizar_missao_interface():
@@ -1242,25 +1228,6 @@ def cadastrar_aula():
     sistema.cadastrar_aula(aula)
     messagebox.showinfo("Sucesso", "Aula cadastrada com sucesso!")
 
-def criar_equipe_interface():
-    nome = entry_nome_equipe.get()
-    instrutor = entry_instrutor_equipe.get()
-    membros = entry_membros_equipe.get().split(",")
-    
-    # Buscar detalhes dos alunos pelos nomes fornecidos
-    membros = [buscar_aluno_por_nome(membro.strip()) for membro in membros]
-
-    # Verificar se todos os membros foram encontrados
-    if None in membros:
-        messagebox.showerror("Erro", "Um ou mais membros não foram encontrados. Verifique os nomes e tente novamente.")
-        return
-    
-    equipe = Equipe(nome, instrutor, membros)
-    sistema.criar_equipe(equipe)
-    messagebox.showinfo("Sucesso", f"Equipe {nome} criada com sucesso!")
-
-
-
 
 
 def registrar_missao_interface():
@@ -1282,6 +1249,70 @@ def registrar_missao_interface():
             messagebox.showerror("Erro", "Data inválida! Use o formato YYYY-MM-DD.")
     else:
         messagebox.showerror("Erro", "Por favor, preencha todos os campos.")
+
+
+
+def criar_equipe():
+    nome = entry_nome.get()
+    nomes_membros = entry_nomes_membros.get().split(',')
+    instrutor = entry_instrutor_equipe.get()
+    membros = [aluno for aluno in sistema.alunos if aluno['nome'] in nomes_membros]
+    if membros:
+        equipe = Equipe(nome, instrutor, membros)
+        sistema.criar_equipe(equipe)
+        messagebox.showinfo("Sucesso", f"Equipe {nome} criada com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Membros não encontrados. Tente novamente.")
+
+def consultar_equipes():
+    equipes = sistema.consultar_equipes()
+    if equipes:
+        result_text = ""
+        for equipe in equipes:
+            membros_nomes = equipe['membros']
+            result_text += f"Nome: {equipe['nome']}, Instrutor: {equipe['instrutor']}, Membros: {', '.join(membros_nomes)}\n"
+        messagebox.showinfo("Resultados", result_text)
+    else:
+        messagebox.showinfo("Resultados", "Nenhuma equipe cadastrada.")
+
+def atualizar_equipe():
+    nome = entry_nome.get()
+    novo_nome = entry_novo_nome.get()
+    novo_instrutor = entry_novo_instrutor_equipe.get()
+    novos_membros_nomes = entry_novos_membros_equipe.get().split(',')
+
+    if nome:
+        novos_membros = [aluno for aluno in sistema.alunos if aluno['nome'] in novos_membros_nomes]
+        sistema.atualizar_equipe(nome, novo_nome, novos_membros, novo_instrutor)
+        messagebox.showinfo("Sucesso", f"Equipe {nome} atualizada com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
+
+def excluir_equipe_interface():
+    nome = entry_nome_excluir.get()
+    if nome:
+        sistema.excluir_equipe(nome)
+        messagebox.showinfo("Sucesso", f"Equipe {nome} excluída com sucesso!")
+    else:
+        messagebox.showerror("Erro", "Por favor, informe o nome da equipe.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1659,8 +1690,8 @@ ttk.Button(tab8, text="Registrar em Missão", command=registrar_missao_interface
 
 # Aba 6: Criar Equipe
 ttk.Label(tab3, text="Nome da Equipe:").grid(column=0, row=0, padx=10, pady=5)
-entry_nome_equipe = ttk.Entry(tab3)
-entry_nome_equipe.grid(column=1, row=0, padx=10, pady=5)
+entry_nome = ttk.Entry(tab3)
+entry_nome.grid(column=1, row=0, padx=10, pady=5)
 
 ttk.Label(tab3, text="Instrutor da Equipe:").grid(column=0, row=1, padx=10, pady=5)
 entry_instrutor_equipe = ttk.Entry(tab3)
@@ -1670,24 +1701,19 @@ ttk.Label(tab3, text="Membros da Equipe (separados por vírgula):").grid(column=
 entry_membros_equipe = ttk.Entry(tab3)
 entry_membros_equipe.grid(column=1, row=2, padx=10, pady=5)
 
-ttk.Button(tab3, text="Criar Equipe", command=criar_equipe_interface).grid(column=0, row=3, columnspan=2, pady=10)
+ttk.Button(tab3, text="Criar Equipe", command=criar_equipe).grid(column=0, row=3, columnspan=2, pady=10)
 
-
-
-# Aba 10: Consultar Equipe
+# Consultar Equipe
 ttk.Button(tab3, text="Consultar Equipes", command=consultar_equipes).grid(column=2, row=0, columnspan=2, pady=10)
-
-
-
 
 # Atualizar Equipe
 ttk.Label(tab3, text="Nome da Equipe:").grid(column=4, row=0, padx=10, pady=5)
-entry_nome_equipe = ttk.Entry(tab3)
-entry_nome_equipe.grid(column=5, row=0, padx=10, pady=5)
+entry_nome = ttk.Entry(tab3)
+entry_nome.grid(column=5, row=0, padx=10, pady=5)
 
 ttk.Label(tab3, text="Novo Nome da Equipe:").grid(column=4, row=1, padx=10, pady=5)
-entry_novo_nome_equipe = ttk.Entry(tab3)
-entry_novo_nome_equipe.grid(column=5, row=1, padx=10, pady=5)
+entry_novo_nome = ttk.Entry(tab3)
+entry_novo_nome.grid(column=5, row=1, padx=10, pady=5)
 
 ttk.Label(tab3, text="Novo Instrutor da Equipe:").grid(column=4, row=2, padx=10, pady=5)
 entry_novo_instrutor_equipe = ttk.Entry(tab3)
@@ -1699,17 +1725,10 @@ entry_novos_membros_equipe.grid(column=5, row=3, padx=10, pady=5)
 
 ttk.Button(tab3, text="Atualizar Equipe", command=atualizar_equipe).grid(column=5, row=4, columnspan=1, pady=10)
 
-
 # Excluir Equipe
 ttk.Label(tab3, text="Nome da Equipe para Excluir:").grid(column=0, row=6, padx=10, pady=5)
-entry_nome_equipe_excluir = ttk.Entry(tab3)
-entry_nome_equipe_excluir.grid(column=1, row=7, padx=10, pady=5)
-
-ttk.Button(tab3, text="Excluir Equipe", command=excluir_equipe).grid(column=0, row=6, columnspan=2, pady=10)
-
-
-
-
-
+entry_nome_excluir = ttk.Entry(tab3)
+entry_nome_excluir.grid(column=1, row=6, padx=10, pady=5)
+ttk.Button(tab3, text="Excluir Equipe", command=excluir_equipe_interface).grid(column=0, row=7, columnspan=2, pady=10)
 
 root.mainloop()
